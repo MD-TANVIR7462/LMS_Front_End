@@ -6,7 +6,7 @@ import { useCourses } from '@/contexts/CourseContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Plus, Search, Edit, Trash2 } from 'lucide-react';
+import { Plus, Search, Edit, Trash2, BookOpen } from 'lucide-react';
 import { useState } from 'react';
 import { CourseFormDialog } from '@/components/admin/CourseFormDialog';
 import Link from 'next/link';

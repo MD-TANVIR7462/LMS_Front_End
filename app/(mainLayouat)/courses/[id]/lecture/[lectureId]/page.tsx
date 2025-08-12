@@ -88,8 +88,6 @@ export default function LecturePage() {
   return (
     <ProtectedRoute requiredRole="user">
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Course Progress Bar */}
           <div className="bg-white rounded-lg shadow-sm p-4 mb-6">

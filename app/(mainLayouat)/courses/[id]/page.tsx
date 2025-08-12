@@ -1,25 +1,16 @@
-'use client';
+"use client";
 
-import { ProtectedRoute } from '@/components/ProtectedRoute';
-import { Navigation } from '@/components/Navigation';
-import { useCourses } from '@/contexts/CourseContext';
-import { useProgress } from '@/contexts/ProgressContext';
-import { useParams } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { 
-  PlayCircle, 
-  CheckCircle, 
-  Lock, 
-  Clock, 
-  BookOpen, 
-  Star,
-  User,
-  Award
-} from 'lucide-react';
-import Link from 'next/link';
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { Navigation } from "@/components/Navigation";
+import { useCourses } from "@/contexts/CourseContext";
+import { useProgress } from "@/contexts/ProgressContext";
+import { useParams } from "next/navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { PlayCircle, CheckCircle, Lock, Clock, BookOpen, Star, User, Award } from "lucide-react";
+import Link from "next/link";
 
 export default function CourseDetail() {
   const params = useParams();
@@ -27,7 +18,7 @@ export default function CourseDetail() {
   const { courses } = useCourses();
   const { getProgressPercentage, isLessonCompleted } = useProgress();
 
-  const course = courses.find(c => c.id === courseId);
+  const course = courses.find((c) => c.id === courseId);
 
   if (!course) {
     return (
@@ -51,13 +42,13 @@ export default function CourseDetail() {
     students: Math.floor(Math.random() * 1000) + 100,
     rating: 4.8,
     reviews: Math.floor(Math.random() * 100) + 50,
-    instructor: 'Expert Instructor',
-    level: 'Beginner to Advanced'
+    instructor: "Expert Instructor",
+    level: "Beginner to Advanced",
   };
 
   const isLectureUnlocked = (moduleIndex: number, lectureIndex: number) => {
     if (moduleIndex === 0 && lectureIndex === 0) return true;
-    
+
     // Check if previous lecture is completed
     for (let m = 0; m <= moduleIndex; m++) {
       const moduleEndIndex = m === moduleIndex ? lectureIndex : course.modules[m].lectures.length;
@@ -73,7 +64,7 @@ export default function CourseDetail() {
 
   return (
     <ProtectedRoute requiredRole="user">
-      <div className="min-h-screen bg-gray-50">   
+      <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
         <div className="bg-gradient-to-r from-blue-500 to-indigo-900 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -81,7 +72,7 @@ export default function CourseDetail() {
               <div className="lg:w-2/3">
                 <h1 className="text-4xl font-bold mb-4">{course.title}</h1>
                 <p className="text-xl text-blue-100 mb-6">{course.description}</p>
-                
+
                 <div className="flex flex-wrap items-center gap-6 mb-8">
                   <div className="flex items-center">
                     <Star className="h-5 w-5 text-yellow-400 mr-1" />
@@ -112,13 +103,9 @@ export default function CourseDetail() {
                   </div>
                 )}
               </div>
-              
+
               <div className="lg:w-1/3 lg:pl-8 mt-8 lg:mt-0">
-                <img
-                  src={course.thumbnail}
-                  alt={course.title}
-                  className="w-full rounded-lg shadow-2xl"
-                />
+                <img src={course.thumbnail} alt={course.title} className="w-full rounded-lg shadow-2xl" />
               </div>
             </div>
           </div>
@@ -129,15 +116,20 @@ export default function CourseDetail() {
             {/* Course Content */}
             <div className="lg:col-span-2">
               <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <BookOpen className="h-5 w-5 mr-2" />
-                    Course Content
-                  </CardTitle>
-                  <p className="text-gray-600">
-                    {course.modules.length} modules • {totalLectures} lectures
-                  </p>
-                </CardHeader>
+                <div className="p-5 flex justify-between">
+                  <div>
+                    <CardTitle className="flex items-center">
+                      <BookOpen className="h-5 w-5 mr-2" />
+                      Course Outline
+                    </CardTitle>
+                    <p className="text-gray-600">
+                      {course.modules.length} modules • {totalLectures} lectures
+                    </p>
+                  </div>
+                  <Link href={`/courses/${courseId}/lecture/1`}>
+                    <Button size="sm">Start Now</Button>
+                  </Link>
+                </div>
                 <CardContent className="space-y-4">
                   {course.modules.map((module, moduleIndex) => (
                     <div key={module.id} className="border rounded-lg">
@@ -145,47 +137,7 @@ export default function CourseDetail() {
                         <h3 className="font-semibold text-lg">
                           Module {module.moduleNumber}: {module.title}
                         </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          {module.lectures.length} lectures
-                        </p>
-                      </div>
-                      <div className="divide-y">
-                        {module.lectures.map((lecture, lectureIndex) => {
-                          const isCompleted = isLessonCompleted(courseId, lecture.id);
-                          const isUnlocked = isLectureUnlocked(moduleIndex, lectureIndex);
-                          
-                          return (
-                            <div key={lecture.id} className="p-4 flex items-center justify-between hover:bg-gray-50">
-                              <div className="flex items-center space-x-3">
-                                <div className="flex-shrink-0">
-                                  {isCompleted ? (
-                                    <CheckCircle className="h-6 w-6 text-green-500" />
-                                  ) : isUnlocked ? (
-                                    <PlayCircle className="h-6 w-6 text-blue-500" />
-                                  ) : (
-                                    <Lock className="h-6 w-6 text-gray-400" />
-                                  )}
-                                </div>
-                                <div>
-                                  <h4 className={`font-medium ${!isUnlocked ? 'text-gray-400' : ''}`}>
-                                    {lecture.title}
-                                  </h4>
-                                  <p className="text-sm text-gray-500">
-                                    Video • {lecture.pdfNotes.length} notes
-                                  </p>
-                                </div>
-                              </div>
-                              
-                              {isUnlocked && (
-                                <Link href={`/courses/${courseId}/lecture/${lecture.id}`}>
-                                  <Button size="sm" variant={isCompleted ? "secondary" : "default"}>
-                                    {isCompleted ? 'Review' : 'Start'}
-                                  </Button>
-                                </Link>
-                              )}
-                            </div>
-                          );
-                        })}
+                        <p className="text-sm text-gray-600 mt-1">{module.lectures.length} lectures</p>
                       </div>
                     </div>
                   ))}
@@ -195,21 +147,17 @@ export default function CourseDetail() {
 
             {/* Sidebar */}
             <div className="space-y-6">
-              {/* <Card>
+              <Card>
                 <CardContent className="p-6">
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-green-600 mb-4">
-                      ${course.price}
-                    </div>
+                    <div className="text-3xl font-bold text-green-600 mb-4">${course.price}</div>
                     <Button className="w-full mb-4" size="lg">
                       Enroll Now
                     </Button>
-                    <p className="text-sm text-gray-600">
-                      30-day money-back guarantee
-                    </p>
+                    <p className="text-sm text-gray-600">30-day money-back guarantee</p>
                   </div>
                 </CardContent>
-              </Card> */}
+              </Card>
 
               {/* Course Info */}
               <Card>
