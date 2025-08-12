@@ -6,12 +6,17 @@ import { useCourses } from '@/contexts/CourseContext';
 import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, Edit, Trash2, Play, FileText } from 'lucide-react';
+import { Plus, Edit, Trash2, Play, FileText, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { ModuleFormDialog } from '@/components/admin/ModuleFormDialog';
 import { LectureFormDialog } from '@/components/admin/LectureFormDialog';
 import { Module, Lecture } from '@/types';
-
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 export default function CourseDetails() {
   const params = useParams();
   const courseId = params.id as string;
@@ -60,7 +65,7 @@ export default function CourseDetails() {
         <Navigation />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Course Header */}
-          <div className="bg-white rounded-lg shadow-sm mb-8 overflow-hidden">
+          {/* <div className="bg-white rounded-lg shadow-sm mb-8 overflow-hidden">
             <div className="md:flex">
               <div className="md:w-1/3">
                 <img
@@ -81,7 +86,7 @@ export default function CourseDetails() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-4 mb-8">
@@ -93,48 +98,60 @@ export default function CourseDetails() {
 
           {/* Modules & Lectures */}
           <div className="space-y-6">
-            {course.modules.map((module) => (
-              <Card key={module.id}>
-                <CardHeader>
-                  <div className="flex justify-between items-center">
-                    <CardTitle className="flex items-center">
+            <Accordion
+ type="single"
+ collapsible
+ className="w-full"
+>
+            {course.modules.map((module,index) => (
+              <AccordionItem value={`item-${index}`} className='my-3'>
+             <div key={module.id}>
+              
+                <AccordionTrigger className='shadow-sm backdrop-blur-lg p-4 rounded-sm flex '>
+                   
+                      <div >
                       Module {module.moduleNumber}: {module.title}
-                    </CardTitle>
-                    <div className="flex space-x-2">
+                    </div>
+                   
+                   
+                  
+                     <div className="flex space-x-2">
                       <Button
-                        size="sm"
-                        onClick={() => handleAddLecture(module.id)}
+                        size="sm" 
+                        onClick={(e) =>{e.stopPropagation(), handleAddLecture(module.id)}}
                       >
                         <Plus className="h-4 w-4 mr-1" />
-                        Add Lecture
+                        Lecture
                       </Button>
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => setEditingModule(module)}
+                        onClick={(e) =>{e.stopPropagation(), setEditingModule(module)}}
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => handleDeleteModule(module.id)}
+                        onClick={(e) =>{e.stopPropagation() ,handleDeleteModule(module.id)}}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
+                 <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 data-[state=open]:rotate-180" />
+                    </div> 
+                </AccordionTrigger>
+                
+                <div>
                   {module.lectures.length === 0 ? (
                     <div className="text-center py-8 text-gray-500">
                       <Play className="h-8 w-8 mx-auto mb-2 opacity-50" />
                       <p>No lectures yet. Add your first lecture!</p>
                     </div>
                   ) : (
-                    <div className="space-y-3">
+                    <AccordionContent className="flex flex-col gap-4 text-balance ">
+                    <div className="space-y-3 ">
                       {module.lectures.map((lecture, index) => (
-                        <div key={lecture.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div key={lecture.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg ">
                           <div className="flex items-center space-x-4">
                             <div className="flex-shrink-0 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-medium">
                               {index + 1}
@@ -171,12 +188,13 @@ export default function CourseDetails() {
                           </div>
                         </div>
                       ))}
-                    </div>
+                    </div></AccordionContent>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div></AccordionItem>
             ))}
 
+            </Accordion>
             {course.modules.length === 0 && (
               <div className="text-center py-12">
                 <div className="text-gray-400 mb-4">
