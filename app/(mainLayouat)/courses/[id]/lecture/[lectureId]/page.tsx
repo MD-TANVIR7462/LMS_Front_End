@@ -1,26 +1,17 @@
-'use client';
+"use client";
 
-import { ProtectedRoute } from '@/components/ProtectedRoute';
-import { Navigation } from '@/components/Navigation';
-import { useCourses } from '@/contexts/CourseContext';
-import { useProgress } from '@/contexts/ProgressContext';
-import { useParams } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Progress } from '@/components/ui/progress';
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  Download, 
-  Search,
-  CheckCircle,
-  PlayCircle,
-  FileText,
-  BookOpen
-} from 'lucide-react';
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { Navigation } from "@/components/Navigation";
+import { useCourses } from "@/contexts/CourseContext";
+import { useProgress } from "@/contexts/ProgressContext";
+import { useParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
+import { ChevronLeft, ChevronRight, Download, Search, CheckCircle, PlayCircle, FileText, BookOpen } from "lucide-react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function LecturePage() {
   const params = useParams();
@@ -28,16 +19,16 @@ export default function LecturePage() {
   const lectureId = params.lectureId as string;
   const { courses } = useCourses();
   const { completeLesson, isLessonCompleted, getProgressPercentage } = useProgress();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
 
-  const course = courses.find(c => c.id === courseId);
-  const currentLecture = course?.modules.flatMap(m => m.lectures).find(l => l.id === lectureId);
-  const currentModule = course?.modules.find(m => m.lectures.some(l => l.id === lectureId));
+  const course = courses.find((c) => c.id === courseId);
+  const currentLecture = course?.modules.flatMap((m) => m.lectures).find((l) => l.id === lectureId);
+  const currentModule = course?.modules.find((m) => m.lectures.some((l) => l.id === lectureId));
 
   useEffect(() => {
     if (currentModule) {
-      setExpandedModules(prev => new Set([...prev, currentModule.id]));
+      setExpandedModules((prev) => new Set([...(prev as any), currentModule.id]));
     }
   }, [currentModule]);
 
@@ -59,15 +50,15 @@ export default function LecturePage() {
   const isCompleted = isLessonCompleted(courseId, lectureId);
 
   // Get all lectures in order for navigation
-  const allLectures = course.modules.flatMap(module => 
-    module.lectures.map(lecture => ({
+  const allLectures = course.modules.flatMap((module) =>
+    module.lectures.map((lecture) => ({
       ...lecture,
       moduleTitle: module.title,
-      moduleNumber: module.moduleNumber
+      moduleNumber: module.moduleNumber,
     }))
   );
-  
-  const currentIndex = allLectures.findIndex(l => l.id === lectureId);
+
+  const currentIndex = allLectures.findIndex((l) => l.id === lectureId);
   const previousLecture = currentIndex > 0 ? allLectures[currentIndex - 1] : null;
   const nextLecture = currentIndex < allLectures.length - 1 ? allLectures[currentIndex + 1] : null;
 
@@ -76,7 +67,7 @@ export default function LecturePage() {
   };
 
   const toggleModule = (moduleId: string) => {
-    setExpandedModules(prev => {
+    setExpandedModules((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(moduleId)) {
         newSet.delete(moduleId);
@@ -87,18 +78,18 @@ export default function LecturePage() {
     });
   };
 
-  const filteredModules = course.modules.map(module => ({
-    ...module,
-    lectures: module.lectures.filter(lecture =>
-      lecture.title.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  })).filter(module => module.lectures.length > 0 || searchTerm === '');
+  const filteredModules = course.modules
+    .map((module) => ({
+      ...module,
+      lectures: module.lectures.filter((lecture) => lecture.title.toLowerCase().includes(searchTerm.toLowerCase())),
+    }))
+    .filter((module) => module.lectures.length > 0 || searchTerm === "");
 
   return (
     <ProtectedRoute requiredRole="user">
       <div className="min-h-screen bg-gray-50">
         <Navigation />
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Course Progress Bar */}
           <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
@@ -142,26 +133,26 @@ export default function LecturePage() {
                             <span className="font-medium text-sm">
                               Module {module.moduleNumber}: {module.title}
                             </span>
-                            <ChevronRight 
+                            <ChevronRight
                               className={`h-4 w-4 transition-transform ${
-                                expandedModules.has(module.id) ? 'rotate-90' : ''
-                              }`} 
+                                expandedModules.has(module.id) ? "rotate-90" : ""
+                              }`}
                             />
                           </div>
                         </button>
-                        
+
                         {expandedModules.has(module.id) && (
                           <div className="divide-y">
                             {module.lectures.map((lecture) => {
                               const lectureCompleted = isLessonCompleted(courseId, lecture.id);
                               const isCurrent = lecture.id === lectureId;
-                              
+
                               return (
                                 <Link
                                   key={lecture.id}
                                   href={`/courses/${courseId}/lecture/${lecture.id}`}
                                   className={`block p-3 hover:bg-gray-50 transition-colors ${
-                                    isCurrent ? 'bg-blue-50 border-r-2 border-blue-500' : ''
+                                    isCurrent ? "bg-blue-50 border-r-2 border-blue-500" : ""
                                   }`}
                                 >
                                   <div className="flex items-center space-x-2">
@@ -170,7 +161,9 @@ export default function LecturePage() {
                                     ) : (
                                       <PlayCircle className="h-4 w-4 text-gray-400" />
                                     )}
-                                    <span className={`text-sm ${isCurrent ? 'font-medium text-blue-700' : 'text-gray-700'}`}>
+                                    <span
+                                      className={`text-sm ${isCurrent ? "font-medium text-blue-700" : "text-gray-700"}`}
+                                    >
                                       {lecture.title}
                                     </span>
                                   </div>
@@ -203,9 +196,7 @@ export default function LecturePage() {
                         {isCompleted ? (
                           <CheckCircle className="h-6 w-6 text-green-500" />
                         ) : (
-                          <Button onClick={handleCompleteLesson}>
-                            Mark as Complete
-                          </Button>
+                          <Button onClick={handleCompleteLesson}>Mark as Complete</Button>
                         )}
                       </div>
                     </div>

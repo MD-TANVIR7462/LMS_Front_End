@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { CourseProvider } from '@/contexts/CourseContext';
 import { ProgressProvider } from '@/contexts/ProgressContext';
+import { Sidebar } from '@/components/shared/Sidebar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <AuthProvider>
           <CourseProvider>
             <ProgressProvider>
+              {/* <Sidebar/> */}
               {children}
             </ProgressProvider>
           </CourseProvider>

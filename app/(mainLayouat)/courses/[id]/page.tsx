@@ -73,11 +73,9 @@ export default function CourseDetail() {
 
   return (
     <ProtectedRoute requiredRole="user">
-      <div className="min-h-screen bg-gray-50">
-        <Navigation />
-        
+      <div className="min-h-screen bg-gray-50">   
         {/* Hero Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
+        <div className="bg-gradient-to-r from-blue-500 to-indigo-900 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div className="lg:flex lg:items-center lg:justify-between">
               <div className="lg:w-2/3">
@@ -197,8 +195,7 @@ export default function CourseDetail() {
 
             {/* Sidebar */}
             <div className="space-y-6">
-              {/* Price Card */}
-              <Card>
+              {/* <Card>
                 <CardContent className="p-6">
                   <div className="text-center">
                     <div className="text-3xl font-bold text-green-600 mb-4">
@@ -212,7 +209,7 @@ export default function CourseDetail() {
                     </p>
                   </div>
                 </CardContent>
-              </Card>
+              </Card> */}
 
               {/* Course Info */}
               <Card>
