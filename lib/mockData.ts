@@ -60,6 +60,7 @@ export const mockCourses: Course[] = [
           }
         ]
       },
+     
       {
         id: '2',
         courseId: '1',
@@ -85,7 +86,87 @@ export const mockCourses: Course[] = [
             ]
           }
         ]
-      }
+      }, {
+        id: '3',
+        courseId: '1',
+        title: 'React Fundamentals',
+        moduleNumber: 3,
+        lectures: [
+          {
+            id: '1',
+            moduleId: '1',
+            title: 'Introduction to React',
+            videoUrl: 'https://www.youtube.com/embed/Tn6-PIqc4UM',
+            pdfNotes: [
+              { id: '1', title: 'React Basics.pdf', url: '#' },
+              { id: '2', title: 'Setup Guide.pdf', url: '#' }
+            ]
+          },
+          {
+            id: '2',
+            moduleId: '1',
+            title: 'JSX and Components',
+            videoUrl: 'https://www.youtube.com/embed/QFaFIcGhPoM',
+            pdfNotes: [
+              { id: '3', title: 'JSX Syntax.pdf', url: '#' }
+            ]
+          },
+          {
+            id: '2',
+            moduleId: '1',
+            title: 'JSX and Components',
+            videoUrl: 'https://www.youtube.com/embed/QFaFIcGhPoM',
+            pdfNotes: [
+              { id: '3', title: 'JSX Syntax.pdf', url: '#' }
+            ]
+          },
+          {
+            id: '3',
+            moduleId: '1',
+            title: 'JSX and Components',
+            videoUrl: 'https://www.youtube.com/embed/QFaFIcGhPoM',
+            pdfNotes: [
+              { id: '3', title: 'JSX Syntax.pdf', url: '#' }
+            ]
+          },
+          {
+            id: '4',
+            moduleId: '1',
+            title: 'JSX and Components',
+            videoUrl: 'https://www.youtube.com/embed/QFaFIcGhPoM',
+            pdfNotes: [
+              { id: '3', title: 'JSX Syntax.pdf', url: '#' }
+            ]
+          },
+          {
+            id: '5',
+            moduleId: '1',
+            title: 'JSX and Components',
+            videoUrl: 'https://www.youtube.com/embed/QFaFIcGhPoM',
+            pdfNotes: [
+              { id: '3', title: 'JSX Syntax.pdf', url: '#' }
+            ]
+          },
+          {
+            id: '5',
+            moduleId: '1',
+            title: 'JSX and Components',
+            videoUrl: 'https://www.youtube.com/embed/QFaFIcGhPoM',
+            pdfNotes: [
+              { id: '3', title: 'JSX Syntax.pdf', url: '#' }
+            ]
+          },
+          {
+            id: '5',
+            moduleId: '1',
+            title: 'JSX and Components',
+            videoUrl: 'https://www.youtube.com/embed/QFaFIcGhPoM',
+            pdfNotes: [
+              { id: '3', title: 'JSX Syntax.pdf', url: '#' }
+            ]
+          },
+        ]
+      },
     ]
   },
   {

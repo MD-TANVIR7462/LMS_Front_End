@@ -84,7 +84,7 @@ export default function LecturePage() {
       lectures: module.lectures.filter((lecture) => lecture.title.toLowerCase().includes(searchTerm.toLowerCase())),
     }))
     .filter((module) => module.lectures.length > 0 || searchTerm === "");
-
+  console.log(currentLecture);
   return (
     <ProtectedRoute requiredRole="user">
       <div className="min-h-screen bg-gray-50">
@@ -100,95 +100,16 @@ export default function LecturePage() {
             <Progress value={progressPercentage} className="h-2" />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Sidebar - Course Content */}
-            <div className="lg:col-span-1">
-              <Card className="sticky top-6">
-                <CardHeader>
-                  <CardTitle className="text-lg">{course.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4 max-h-[70vh] overflow-y-auto">
-                  {/* Search */}
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                    <Input
-                      placeholder="Search lessons..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
-                    />
-                  </div>
-
-                  {/* Module & Lectures List */}
-                  <div className="space-y-2">
-                    {filteredModules.map((module) => (
-                      <div key={module.id} className="border rounded-lg">
-                        <button
-                          onClick={() => toggleModule(module.id)}
-                          className="w-full p-3 text-left bg-gray-50 rounded-t-lg hover:bg-gray-100 transition-colors"
-                        >
-                          <div className="flex items-center justify-between">
-                            <span className="font-medium text-sm">
-                              Module {module.moduleNumber}: {module.title}
-                            </span>
-                            <ChevronRight
-                              className={`h-4 w-4 transition-transform ${
-                                expandedModules.has(module.id) ? "rotate-90" : ""
-                              }`}
-                            />
-                          </div>
-                        </button>
-
-                        {expandedModules.has(module.id) && (
-                          <div className="divide-y">
-                            {module.lectures.map((lecture) => {
-                              const lectureCompleted = isLessonCompleted(courseId, lecture.id);
-                              const isCurrent = lecture.id === lectureId;
-
-                              return (
-                                <Link
-                                  key={lecture.id}
-                                  href={`/courses/${courseId}/lecture/${lecture.id}`}
-                                  className={`block p-3 hover:bg-gray-50 transition-colors ${
-                                    isCurrent ? "bg-blue-50 border-r-2 border-blue-500" : ""
-                                  }`}
-                                >
-                                  <div className="flex items-center space-x-2">
-                                    {lectureCompleted ? (
-                                      <CheckCircle className="h-4 w-4 text-green-500" />
-                                    ) : (
-                                      <PlayCircle className="h-4 w-4 text-gray-400" />
-                                    )}
-                                    <span
-                                      className={`text-sm ${isCurrent ? "font-medium text-blue-700" : "text-gray-700"}`}
-                                    >
-                                      {lecture.title}
-                                    </span>
-                                  </div>
-                                </Link>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
+          <div className="grid grid-cols-1 lg:grid-cols-7 gap-4">
             {/* Main Content */}
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-5">
               <div className="space-y-6">
                 {/* Lecture Header */}
                 <Card>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between mb-4">
+                  <CardContent className="p-2">
+                    <div className="flex items-center justify-between ">
                       <div>
-                        <h1 className="text-2xl font-bold text-gray-900">{currentLecture.title}</h1>
-                        <p className="text-gray-600">
-                          Module {currentModule.moduleNumber}: {currentModule.title}
-                        </p>
+                        <h1 className="text-lg  text-gray-900">{currentLecture.title}</h1>
                       </div>
                       <div className="flex items-center space-x-2">
                         {isCompleted ? (
@@ -271,6 +192,82 @@ export default function LecturePage() {
                   </CardContent>
                 </Card>
               </div>
+            </div>
+
+            {/* Sidebar - Course Content */}
+            <div className="lg:col-span-2">
+              <Card className="sticky top-6">
+                <CardHeader>
+                  <CardTitle className="text-lg">{course.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4 max-h-[100vh] overflow-y-auto">
+                  {/* Search */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                    <Input
+                      placeholder="Search lessons..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+
+                  {/* Module & Lectures List */}
+                  <div className="space-y-2">
+                    {filteredModules.map((module) => (
+                      <div key={module.id} className="border rounded-lg">
+                        <button
+                          onClick={() => toggleModule(module.id)}
+                          className="w-full p-3 text-left bg-gray-50 rounded-t-lg hover:bg-gray-100 transition-colors"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium text-sm">
+                              Module {module.moduleNumber}: {module.title}
+                            </span>
+                            <ChevronRight
+                              className={`h-4 w-4 transition-transform ${
+                                expandedModules.has(module.id) ? "rotate-90" : ""
+                              }`}
+                            />
+                          </div>
+                        </button>
+
+                        {expandedModules.has(module.id) && (
+                          <div className="divide-y">
+                            {module.lectures.map((lecture) => {
+                              const lectureCompleted = isLessonCompleted(courseId, lecture.id);
+                              const isCurrent = lecture.id === lectureId;
+
+                              return (
+                                <Link
+                                  key={lecture.id}
+                                  href={`/courses/${courseId}/lecture/${lecture.id}`}
+                                  className={`block p-3 hover:bg-gray-50 transition-colors ${
+                                    isCurrent ? "bg-blue-50 border-r-2 border-blue-500" : ""
+                                  }`}
+                                >
+                                  <div className="flex items-center space-x-2">
+                                    {lectureCompleted ? (
+                                      <CheckCircle className="h-4 w-4 text-green-500" />
+                                    ) : (
+                                      <PlayCircle className="h-4 w-4 text-gray-400" />
+                                    )}
+                                    <span
+                                      className={`text-sm ${isCurrent ? "font-medium text-blue-700" : "text-gray-700"}`}
+                                    >
+                                      {lecture.title}
+                                    </span>
+                                  </div>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>

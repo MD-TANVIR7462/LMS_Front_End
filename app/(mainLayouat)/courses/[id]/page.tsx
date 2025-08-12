@@ -92,16 +92,6 @@ export default function CourseDetail() {
                     {courseStats.level}
                   </div>
                 </div>
-
-                {progressPercentage > 0 && (
-                  <div className="bg-white bg-opacity-10 rounded-lg p-4 backdrop-blur-sm">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm font-medium">Your Progress</span>
-                      <span className="text-sm">{progressPercentage}% Complete</span>
-                    </div>
-                    <Progress value={progressPercentage} className="bg-white bg-opacity-20" />
-                  </div>
-                )}
               </div>
 
               <div className="lg:w-1/3 lg:pl-8 mt-8 lg:mt-0">
@@ -112,6 +102,15 @@ export default function CourseDetail() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+            <div className="flex items-center justify-between mb-2">
+              <Link href={`/courses`} className="text-sm text-blue-600 hover:text-blue-800">
+                ← Back to Course
+              </Link>
+              <span className="text-sm text-gray-600">{progressPercentage}% Complete</span>
+            </div>
+            <Progress value={progressPercentage} className="h-2" />
+          </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Course Content */}
             <div className="lg:col-span-2">
