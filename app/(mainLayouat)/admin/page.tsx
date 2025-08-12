@@ -5,6 +5,7 @@ import { Navigation } from '@/components/Navigation';
 import { useCourses } from '@/contexts/CourseContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, Users, PlayCircle, TrendingUp } from 'lucide-react';
+import { Sidebar } from '@/components/shared/Sidebar';
 
 export default function AdminDashboard() {
   const { courses } = useCourses();
