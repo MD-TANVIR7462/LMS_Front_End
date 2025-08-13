@@ -46,8 +46,8 @@ export default function AdminCourses() {
           </div>
 
           {/* Search */}
-          <Card className="mb-6">
-            <CardContent className="p-6">
+         
+            <div className="mb-4 max-w-md ms-auto w-full">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input
@@ -57,8 +57,8 @@ export default function AdminCourses() {
                   className="pl-10"
                 />
               </div>
-            </CardContent>
-          </Card>
+            </div>
+       
 
           {/* Courses Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
