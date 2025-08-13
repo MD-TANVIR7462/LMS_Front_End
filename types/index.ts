@@ -17,11 +17,17 @@ export interface TCreateCourse {
 }
 
 export interface Module {
-  id: string;
+  _id: string;
   courseId: string;
   title: string;
   moduleNumber: number;
   lectures: Lecture[];
+}
+export interface CreateModule {
+  courseId: string;
+  title: string;
+  lectures?: Lecture[];
+  moduleNumber?:number
 }
 
 export interface Lecture {

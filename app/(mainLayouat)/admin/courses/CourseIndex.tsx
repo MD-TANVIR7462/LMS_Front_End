@@ -58,7 +58,7 @@ export default function CourseIndex({ courses }: { courses: Course[] }) {
       }
    };
 
-   const handleEditCourse = async (data: Partial<Course>) => {
+   const handleEdit = async (data: Partial<Course>) => {
       if (!editingCourse) {
          toast.warning("No Course selected for editing.");
          return;
@@ -84,7 +84,7 @@ export default function CourseIndex({ courses }: { courses: Course[] }) {
       }
    };
 
-   const handleDeleteCustomer = (id: string) => {
+   const handleDelete = (id: string) => {
       ConfirmAndDelete(id, "course/delete-course", router)
    };
 
@@ -169,7 +169,7 @@ export default function CourseIndex({ courses }: { courses: Course[] }) {
                                           size="sm"
                                           onClick={(e) => {
                                              e.stopPropagation();
-                                             handleDeleteCustomer(course?._id);
+                                             handleDelete(course?._id);
                                           }}
                                           className="text-destructive hover:text-destructive"
                                        >
@@ -245,7 +245,7 @@ export default function CourseIndex({ courses }: { courses: Course[] }) {
                                           variant="outline"
                                           onClick={(e) => {
                                              e.stopPropagation();
-                                             handleDeleteCustomer(course?._id);
+                                             handleDelete(course?._id);
                                           }}
                                           className="text-destructive hover:text-destructive"
                                        >
@@ -289,7 +289,7 @@ export default function CourseIndex({ courses }: { courses: Course[] }) {
                         setEditingCourse(null);
                      }
                   }}
-                  addCourse={editingCourse ? handleEditCourse : handleCreate}
+                  addCourse={editingCourse ? handleEdit : handleCreate}
                   course={editingCourse}
                />
             </div>

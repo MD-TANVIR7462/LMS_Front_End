@@ -9,16 +9,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { PlayCircle, CheckCircle, Lock, Clock, BookOpen, Star, User, Award } from "lucide-react";
+import { Clock, BookOpen, Star, User, Award } from "lucide-react";
 import Link from "next/link";
+import { Course } from "@/types";
 
-export default function CourseDetail() {
+export default function CourseDetail({ course }: { course: Course }) {
   const params = useParams();
   const courseId = params.id as string;
-  const { courses } = useCourses();
   const { getProgressPercentage, isLessonCompleted } = useProgress();
 
-  const course = courses.find((c) => c.id === courseId);
+
 
   if (!course) {
     return (
@@ -33,7 +33,7 @@ export default function CourseDetail() {
     );
   }
 
-  const totalLectures = course.modules.reduce((acc, module) => acc + module.lectures.length, 0);
+  const totalLectures = course.modules.reduce((acc: any, module: any) => acc + module.lectures.length, 0);
   const progressPercentage = getProgressPercentage(courseId, totalLectures);
 
   // Mock additional course data for better presentation
@@ -131,10 +131,10 @@ export default function CourseDetail() {
                 </div>
                 <CardContent className="space-y-4">
                   {course.modules.map((module, moduleIndex) => (
-                    <div key={module.id} className="border rounded-lg">
+                    <div key={module?._id} className="border rounded-lg">
                       <div className="p-4 bg-gray-50 border-b">
                         <h3 className="font-semibold text-lg">
-                          Module {module.moduleNumber}: {module.title}
+                          Module {module?.moduleNumber}: {module.title}
                         </h3>
                         <p className="text-sm text-gray-600 mt-1">{module.lectures.length} lectures</p>
                       </div>

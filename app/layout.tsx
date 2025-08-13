@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Toaster position="top-right" />
+        <Toaster position="bottom-right" expand={false} />
         <AuthProvider>
           <CourseProvider>
             <ProgressProvider>
