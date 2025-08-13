@@ -1,11 +1,19 @@
 export interface Course {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   price: number;
   thumbnail: string;
-  createdAt: string;
+  createdAt?: string;
   modules: Module[];
+}
+export interface TCreateCourse {
+
+  title: string;
+  description: string;
+  price: number;
+  thumbnail: string;
+  modules?: Module[];
 }
 
 export interface Module {

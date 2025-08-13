@@ -5,6 +5,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { CourseProvider } from '@/contexts/CourseContext';
 import { ProgressProvider } from '@/contexts/ProgressContext';
 import { Sidebar } from '@/components/shared/Sidebar';
+import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,10 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <Toaster position="top-right" />
         <AuthProvider>
           <CourseProvider>
             <ProgressProvider>
-              {/* <Sidebar/> */}
               {children}
             </ProgressProvider>
           </CourseProvider>
