@@ -5,14 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Users,
-  Contact,
   Monitor,
-  FileText,
-  FolderOpen,
-  ShoppingCart,
-  Ticket,
-  DollarSign,
-  File,
   Menu,
   X,
   LogOut,
