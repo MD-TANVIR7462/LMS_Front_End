@@ -5,13 +5,21 @@ import { Navigation } from "@/components/Navigation";
 import { useCourses } from "@/contexts/CourseContext";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Plus, Edit, Trash2, Play, FileText, ChevronDown } from "lucide-react";
+import { Plus, Edit, Trash2, Play, FileText, ChevronDown, Eye } from "lucide-react";
 import { useState } from "react";
 import { ModuleFormDialog } from "@/components/admin/ModuleFormDialog";
 import { LectureFormDialog } from "@/components/admin/LectureFormDialog";
 import { Module, Lecture, Course } from "@/types";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ConfirmAndDelete } from "@/components/shared/ConfirmAndDelete";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 export default function AdminCourseDetails({ course }: { course: Course }) {
   console.log(course);
   const params = useParams();
@@ -23,8 +31,8 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
   const [editingModule, setEditingModule] = useState<Module | null>(null);
   const [editingLecture, setEditingLecture] = useState<{ lecture: Lecture; moduleId: string } | null>(null);
   const [selectedModuleId, setSelectedModuleId] = useState<string>("");
-
-console.log(editingLecture,"Edit" , course)
+  const [playVideo, setPlayVideo] = useState<string>("");
+  console.log(editingLecture, "Edit", course);
 
   if (!course) {
     return (
@@ -166,18 +174,39 @@ console.log(editingLecture,"Edit" , course)
                                     </div>
                                   </div>
                                 </div>
-                                <div className="flex space-x-2">
-                                  <Button
-                                    size="sm"
-                                    variant="outline"
-                                    onClick={() => setEditingLecture({ lecture, moduleId: module._id })}
-                                  >
-                                    <Edit className="h-4 w-4" />
-                                  </Button>
-                                  <Button size="sm" variant="outline" onClick={() => handleDeleteLecture(lecture?._id as string)}>
-                                    <Trash2 className="h-4 w-4" />
-                                  </Button>
-                                </div>
+                                <Dialog>
+                                  <div className="flex space-x-2">
+                                    <DialogTrigger>
+                                      {" "}
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => setPlayVideo(lecture?.videoUrl)}
+                                      >
+                                        <Eye className="h-4 w-4" />
+                                      </Button>
+                                    </DialogTrigger>
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => setEditingLecture({ lecture, moduleId: module._id })}
+                                    >
+                                      <Edit className="h-4 w-4" />
+                                    </Button>
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => handleDeleteLecture(lecture?._id as string)}
+                                    >
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                  {playVideo !== "" && (
+                                    <DialogContent className="max-w-2xl">
+                                      <div><iframe className=" h-48 sm:h-64 rounded-md w-full my-3 sm:my-5 " src={playVideo}></iframe></div>
+                                    </DialogContent>
+                                  )}
+                                </Dialog>
                               </div>
                             ))}
                           </div>
