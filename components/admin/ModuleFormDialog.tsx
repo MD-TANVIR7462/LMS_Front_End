@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { CreateModule, Module } from '@/types';
-import { toast } from 'sonner';
-import { createData, updateData } from '@/server/serverAction';
-import { useRouter } from 'next/navigation';
-import { ConfirmAndDelete } from '../shared/ConfirmAndDelete';
-import { Circle } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { CreateModule, Module } from "@/types";
+import { toast } from "sonner";
+import { createData, updateData } from "@/server/serverAction";
+import { useRouter } from "next/navigation";
+import { ConfirmAndDelete } from "../shared/ConfirmAndDelete";
+import { Circle } from "lucide-react";
 
 interface ModuleFormDialogProps {
   open: boolean;
@@ -19,19 +19,17 @@ interface ModuleFormDialogProps {
   module?: Module | null;
 }
 
-
 export const ModuleFormDialog = ({ open, onOpenChange, courseId, module }: ModuleFormDialogProps) => {
-  const [title, setTitle] = useState('');
- 
-  const router = useRouter()
+  const [title, setTitle] = useState("");
+
+  const router = useRouter();
   useEffect(() => {
     if (module) {
       setTitle(module.title);
     } else {
-      setTitle('');
+      setTitle("");
     }
   }, [module, open]);
-
 
   const handleCreate = async (data: CreateModule) => {
     try {
@@ -44,7 +42,7 @@ export const ModuleFormDialog = ({ open, onOpenChange, courseId, module }: Modul
     } catch (error: any) {
       toast.error(error.message || "Unexpected error occurred.");
     } finally {
-      setTitle('');
+      setTitle("");
       router.refresh();
       onOpenChange(false);
     }
@@ -56,12 +54,7 @@ export const ModuleFormDialog = ({ open, onOpenChange, courseId, module }: Modul
       return;
     }
     try {
-      const res = await updateData(
-        "module/update-module",
-        module?._id as string,
-        data,
-        ""
-      );
+      const res = await updateData("module/update-module", module?._id as string, data, "");
       if (res?.success) {
         toast.success("module updated successfully.");
       } else {
@@ -70,43 +63,31 @@ export const ModuleFormDialog = ({ open, onOpenChange, courseId, module }: Modul
     } catch (error: any) {
       toast.error(error.message || "Unexpected error occurred.");
     } finally {
-      setTitle('');
+      setTitle("");
       onOpenChange(false);
       router.refresh();
     }
   };
-
-  const handleDelete = (id: string) => {
-    ConfirmAndDelete(id, "module/delete-module", router)
-  };
-
-
-
 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (module) {
-      // handleCreate(module?._id, { title });
+      handleEdit({ _id: module?._id, title });
     } else {
-      handleCreate({ title, courseId ,moduleNumber:2});
+      handleCreate({ title, courseId, moduleNumber: 2 });
     }
 
-    setTitle('');
+    setTitle("");
     onOpenChange(false);
   };
-
-
-
-
-
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{module ? 'Edit Module' : 'Add New Module'}</DialogTitle>
+          <DialogTitle>{module ? "Edit Module" : "Add New Module"}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -125,9 +106,7 @@ export const ModuleFormDialog = ({ open, onOpenChange, courseId, module }: Modul
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit">
-              {module ? 'Update Module' : 'Add Module' } 
-            </Button>
+            <Button type="submit">{module ? "Update Module" : "Add Module"}</Button>
           </div>
         </form>
       </DialogContent>
