@@ -6,9 +6,8 @@ import AdminCourseDetails from './SingleCourse';
 const AdminCoursePage = async ({params}:{params:any}) => {
 
   const courseId = params.id as string;
-  console.log(params)
   const course = (await getSingleData('/course/get-course', courseId))?.data;
-  console.log(course);
+  console.log(course)
 
   return (
     <>

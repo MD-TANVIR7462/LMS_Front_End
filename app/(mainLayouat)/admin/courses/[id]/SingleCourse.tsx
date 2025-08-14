@@ -24,6 +24,8 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
   const [editingLecture, setEditingLecture] = useState<{ lecture: Lecture; moduleId: string } | null>(null);
   const [selectedModuleId, setSelectedModuleId] = useState<string>("");
 
+console.log(editingLecture,"Edit" , course)
+
   if (!course) {
     return (
       <ProtectedRoute requiredRole="admin">
@@ -91,7 +93,11 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
               {course?.modules.map((module, index) => (
                 <AccordionItem value={`item-${index}`} className="my-3">
                   <div key={module._id}>
-                    <AccordionTrigger className="shadow-sm backdrop-blur-lg p-4 rounded-sm flex ">
+                    <AccordionTrigger
+                      className={`shadow-sm backdrop-blur-lg p-4 rounded-sm flex ${
+                        module.lectures.length > 0 && "hover:underline"
+                      }`}
+                    >
                       <div>
                         Module e.g {module.moduleNumber}: {module.title}
                       </div>
@@ -139,7 +145,7 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
                           <div className="space-y-3 ">
                             {module?.lectures?.map((lecture, index) => (
                               <div
-                                key={lecture.id}
+                                key={lecture._id}
                                 className="flex items-center justify-between p-4 bg-gray-50 rounded-lg "
                               >
                                 <div className="flex items-center space-x-4">
@@ -155,7 +161,7 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
                                       </span>
                                       <span className="flex items-center">
                                         <FileText className="h-3 w-3 mr-1" />
-                                        {lecture.pdfNotes.length} notes
+                                        {lecture?.pdfNotes && lecture?.pdfNotes.length} notes
                                       </span>
                                     </div>
                                   </div>
@@ -168,7 +174,7 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
                                   >
                                     <Edit className="h-4 w-4" />
                                   </Button>
-                                  <Button size="sm" variant="outline" onClick={() => handleDeleteLecture(lecture.id)}>
+                                  <Button size="sm" variant="outline" onClick={() => handleDeleteLecture(lecture?._id as string)}>
                                     <Trash2 className="h-4 w-4" />
                                   </Button>
                                 </div>

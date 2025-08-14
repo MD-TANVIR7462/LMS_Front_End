@@ -20,7 +20,6 @@ interface LectureFormDialogProps {
 }
 
 export const LectureFormDialog = ({ open, onOpenChange, moduleId, lecture }: LectureFormDialogProps) => {
-  const { addLecture, updateLecture } = useCourses();
   const [rawUrl, setRawUrl] = useState("");
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -28,7 +27,7 @@ export const LectureFormDialog = ({ open, onOpenChange, moduleId, lecture }: Lec
     videoUrl: "",
     pdfNotes: [] as PDFNote[],
   });
-
+console.log(lecture)
   useEffect(() => {
     if (lecture) {
       setFormData({
