@@ -15,9 +15,6 @@ import { ConfirmAndDelete } from "@/components/shared/ConfirmAndDelete";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 export default function AdminCourseDetails({ course }: { course: Course }) {
@@ -49,11 +46,8 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
   const handleDeleteModule = (id: string) => {
     ConfirmAndDelete(id, "module/delete-module", router);
   };
-
-  const handleDeleteLecture = (lectureId: string) => {
-    if (window.confirm("Are you sure you want to delete this lecture?")) {
-      deleteLecture(lectureId);
-    }
+  const handleDeleteLecture = (id: string) => {
+    ConfirmAndDelete(id, "lecture/delete-lecture", router);
   };
 
   const handleAddLecture = (moduleId: string) => {
@@ -203,7 +197,12 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
                                   </div>
                                   {playVideo !== "" && (
                                     <DialogContent className="max-w-2xl">
-                                      <div><iframe className=" h-48 sm:h-64 rounded-md w-full my-3 sm:my-5 " src={playVideo}></iframe></div>
+                                      <div>
+                                        <iframe
+                                          className=" h-48 sm:h-64 rounded-md w-full my-3 sm:my-5 "
+                                          src={playVideo}
+                                        ></iframe>
+                                      </div>
                                     </DialogContent>
                                   )}
                                 </Dialog>

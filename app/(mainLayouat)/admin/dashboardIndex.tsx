@@ -81,7 +81,7 @@ export default function AdminDashboard({ courses, length }: { courses: any; leng
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {courses.slice(0, 5).map((course) => (
+                {courses.slice(0, 5).map((course: Course) => (
                   <div key={course._id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                     <div className="flex items-center space-x-4">
                       <img src={course.thumbnail} alt={course.title} className="w-16 h-16 object-cover rounded-lg" />

@@ -1,4 +1,5 @@
 export interface Course {
+  language?: string;
   _id: string;
   title: string;
   description: string;
@@ -8,7 +9,6 @@ export interface Course {
   modules: Module[];
 }
 export interface TCreateCourse {
-
   title: string;
   description: string;
   price: number;
@@ -27,7 +27,7 @@ export interface CreateModule {
   courseId: string;
   title: string;
   lectures?: Lecture[];
-  moduleNumber?:number
+  moduleNumber?: number;
 }
 
 export interface Lecture {
@@ -50,7 +50,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  role: 'admin' | 'user';
+  role: "admin" | "user";
   progress: UserProgress[];
 }
 
