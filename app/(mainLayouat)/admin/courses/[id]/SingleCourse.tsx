@@ -129,7 +129,7 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
                     </AccordionTrigger>
 
                     <div>
-                      {module.lectures.length === 0 ? (
+                      {module?.lectures?.length === 0 ? (
                         <div className="text-center py-8 text-gray-500">
                           <Play className="h-8 w-8 mx-auto mb-2 opacity-50" />
                           <p>No lectures yet. Add your first lecture!</p>
@@ -137,7 +137,7 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
                       ) : (
                         <AccordionContent className="flex flex-col gap-4 text-balance ">
                           <div className="space-y-3 ">
-                            {module.lectures.map((lecture, index) => (
+                            {module?.lectures?.map((lecture, index) => (
                               <div
                                 key={lecture.id}
                                 className="flex items-center justify-between p-4 bg-gray-50 rounded-lg "

@@ -31,17 +31,17 @@ export interface CreateModule {
 }
 
 export interface Lecture {
-  id: string;
+  _id?: string;
   moduleId: string;
   title: string;
   videoUrl: string;
-  pdfNotes: PDFNote[];
+  pdfNotes?: PDFNote[];
   isCompleted?: boolean;
   isUnlocked?: boolean;
 }
 
 export interface PDFNote {
-  id: string;
+  _id?: string;
   title: string;
   url: string;
 }
