@@ -16,73 +16,14 @@ export default function UserCourses({ courses }: { courses: Course[] }) {
   return (
     <ProtectedRoute requiredRole="user">
       <div className="min-h-screen bg-gray-50">
-        <Sidebar />
         <Navigation />
         <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900">My Courses</h1>
             <p className="text-gray-600 mt-2">Continue your learning journey</p>
           </div>
-          {/* 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {courses.map((course) => {
-             
-              const progressPercentage = getProgressPercentage(course.id, totalLectures);
-
-              return (
-                <Card key={course._id}>
-                  <CardContent className="p-0">
-                    <Link href={`/courses/${course._id}`}>
-                      <div className="relative">
-                        <img
-                          src={course.thumbnail}
-                          alt={course.title}
-                          className="w-full h-48 object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 rounded-t-lg flex items-center justify-center">
-                          <PlayCircle className="h-12 w-12 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        </div>
-                        {progressPercentage > 0 && (
-                          <Badge className="absolute top-2 right-2 bg-green-500">{progressPercentage}% Complete</Badge>
-                        )}
-                      </div>
-                      <div className="p-6">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-primary transition-colors line-clamp-2">
-                          {course.title}
-                        </h3>
-
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">{course.description}</p>
-
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between text-sm">
-                            <div className="flex items-center text-gray-600">
-                              <BookOpen className="h-4 w-4 mr-1" />
-                              {course.modules.length} modules
-                            </div>
-                          
-                          </div>
-
-                          {progressPercentage > 0 && (
-                            <div className="space-y-1">
-                              <div className="flex justify-between text-xs text-gray-600">
-                                <span>Progress</span>
-                                <span>{progressPercentage}%</span>
-                              </div>
-                              <Progress value={progressPercentage} className="h-2" />
-                            </div>
-                          )}
-
-                          <div className="pt-2 border-t">
-                            <span className="text-2xl font-bold text-green-600">${course.price}</span>
-                          </div>
-                        </div>
-                      </div>{" "}
-                    </Link>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div> */}
+         
+        
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {courses.map((course) => {
               const totalModules = course.modules.length;
