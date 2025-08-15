@@ -6,6 +6,7 @@ import { CourseProvider } from '@/contexts/CourseContext';
 import { ProgressProvider } from '@/contexts/ProgressContext';
 import { Sidebar } from '@/components/shared/Sidebar';
 import { Toaster } from 'sonner';
+import { Navigation } from '@/components/Navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
         <AuthProvider>
           <CourseProvider>
             <ProgressProvider>
+              <Navigation/>
               {children}
             </ProgressProvider>
           </CourseProvider>

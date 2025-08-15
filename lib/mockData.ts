@@ -206,3 +206,37 @@ export const mockCourses: Course[] = [
     modules: []
   }
 ];
+
+
+export const featuredCourses = [
+    {
+      id: '1',
+      title: 'Advanced React Development',
+      instructor: 'Sarah Johnson',
+      rating: 4.9,
+      students: 1243,
+      duration: '12 hours',
+      price: '$89.99',
+      image: '/react-course.jpg'
+    },
+    {
+      id: '2',
+      title: 'Python for Data Science',
+      instructor: 'Michael Chen',
+      rating: 4.7,
+      students: 982,
+      duration: '15 hours',
+      price: '$79.99',
+      image: '/python-course.jpg'
+    },
+    {
+      id: '3',
+      title: 'UI/UX Design Fundamentals',
+      instructor: 'Emma Rodriguez',
+      rating: 4.8,
+      students: 756,
+      duration: '8 hours',
+      price: '$69.99',
+      image: '/design-course.jpg'
+    }
+  ];

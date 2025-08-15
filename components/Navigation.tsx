@@ -43,8 +43,8 @@ export const Navigation = () => {
 
   const navItems = [
     { href: '/', label: 'Home', icon: HomeIcon },
-    { href: '/courses', label: 'Courses', icon: BookOpen },
-    // { href: '/settings', label: 'Settings', icon: Settings },
+    { href: '/courses', label: 'My Courses', icon: BookOpen },
+    { href: '/settings', label: 'Settings', icon: Settings },
   ];
 
   return (

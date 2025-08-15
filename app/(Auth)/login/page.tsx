@@ -20,7 +20,7 @@ export default function Login() {
 
   useEffect(() => {
     if (user) {
-      router.push(user.role === 'admin' ? '/admin' : '/courses');
+      router.push(user.role === 'admin' ? '/admin' : '/');
     }
   }, [user, router]);
 
