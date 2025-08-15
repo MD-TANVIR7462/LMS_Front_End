@@ -1,6 +1,6 @@
 import {  getSingleData } from '@/server/serverAction';
 import React from 'react';
-import AdminCourseDetails from './SingleCourse';
+import AdminCourseDetails from './AdminCourseDetails';
 
 
 const AdminCoursePage = async ({params}:{params:any}) => {

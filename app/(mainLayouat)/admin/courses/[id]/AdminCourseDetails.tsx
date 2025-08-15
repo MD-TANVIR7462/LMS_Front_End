@@ -2,7 +2,6 @@
 
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { Navigation } from "@/components/Navigation";
-import { useCourses } from "@/contexts/CourseContext";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus, Edit, Trash2, Play, FileText, ChevronDown, Eye } from "lucide-react";
@@ -22,7 +21,6 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
   const params = useParams();
   const courseId = params.id as string;
   const router = useRouter();
-  const { courses, deleteModule, deleteLecture } = useCourses();
   const [isModuleDialogOpen, setIsModuleDialogOpen] = useState(false);
   const [isLectureDialogOpen, setIsLectureDialogOpen] = useState(false);
   const [editingModule, setEditingModule] = useState<Module | null>(null);
@@ -59,7 +57,7 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
     <ProtectedRoute requiredRole="admin">
       <div className="min-h-screen bg-gray-50">
         <Navigation />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Course Header */}
           <div className="bg-white rounded-lg shadow-sm mb-8 overflow-hidden max-h-[300px]">
             <div className="md:flex">
@@ -91,14 +89,13 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
 
           {/* Modules & Lectures */}
           <div className="space-y-6">
-            <Accordion type="single" collapsible className="w-full">
+            <Accordion defaultValue="item-0"  type="single" collapsible className="w-full">
               {course?.modules.map((module, index) => (
                 <AccordionItem value={`item-${index}`} className="my-3">
                   <div key={module._id}>
                     <AccordionTrigger
-                      className={`shadow-sm backdrop-blur-lg p-4 rounded-sm flex ${
-                        module.lectures.length > 0 && "hover:underline"
-                      }`}
+                      className={`shadow-sm backdrop-blur-lg p-4 rounded-sm flex ${module.lectures.length > 0 && "hover:underline"
+                        }`}
                     >
                       <div>
                         Module e.g {module.moduleNumber}: {module.title}

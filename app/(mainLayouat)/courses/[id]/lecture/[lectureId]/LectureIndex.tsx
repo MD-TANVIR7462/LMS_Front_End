@@ -1,7 +1,5 @@
 "use client";
-
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { Navigation } from "@/components/Navigation";
 import { useCourses } from "@/contexts/CourseContext";
 import { useProgress } from "@/contexts/ProgressContext";
 import { useParams } from "next/navigation";
@@ -18,7 +16,6 @@ export default function LectureIndex({ course }: { course: Course }) {
    const params = useParams();
    const courseId = params.id as string;
    const lectureId = params.lectureId as string;
-   const { courses } = useCourses();
    const { completeLesson, isLessonCompleted, getProgressPercentage } = useProgress();
    const [searchTerm, setSearchTerm] = useState("");
    const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
@@ -88,7 +85,7 @@ export default function LectureIndex({ course }: { course: Course }) {
    return (
       <ProtectedRoute requiredRole="user">
          <div className="min-h-screen bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
                {/* Course Progress Bar */}
                <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
                   <div className="flex items-center justify-between mb-2">
@@ -173,7 +170,8 @@ export default function LectureIndex({ course }: { course: Course }) {
                                        <Link href={`/courses/${courseId}/lecture/${previousLecture._id}`}>
                                           <Button variant="outline">
                                              <ChevronLeft className="h-4 w-4 mr-2" />
-                                             Previous: {previousLecture.title}
+                                             {/* Previous: {previousLecture.title} */}
+                                             Previous
                                           </Button>
                                        </Link>
                                     )}
@@ -182,7 +180,8 @@ export default function LectureIndex({ course }: { course: Course }) {
                                     {nextLecture && (
                                        <Link href={`/courses/${courseId}/lecture/${nextLecture._id}`}>
                                           <Button>
-                                             Next: {nextLecture.title}
+                                             Next
+                                             {/* Next: {nextLecture.title} */}
                                              <ChevronRight className="h-4 w-4 ml-2" />
                                           </Button>
                                        </Link>

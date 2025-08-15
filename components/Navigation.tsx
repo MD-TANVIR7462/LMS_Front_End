@@ -22,7 +22,7 @@ export const Navigation = () => {
 
   return (
     <nav className="bg-white shadow-sm border-b">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-end h-16">
           <div className="hidden md:flex items-center space-x-4">
             <div className="flex items-center">

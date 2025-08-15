@@ -6,15 +6,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Clock, BookOpen, Star, User, Award, ChevronRight, Check, Lock, Play, Trophy, BarChart2 } from "lucide-react";
+import { Clock, BookOpen, Star, User, Award, ChevronRight, Check, Lock, Play, Trophy, BarChart2, Eye } from "lucide-react";
 import Link from "next/link";
 import { Course } from "@/types";
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState } from "react";
+import Certificate from "@/components/user/Certificate";
+import CourseQTA from "@/components/user/CourseQTA";
+import { useRouter } from "next/navigation";
 
 export default function CourseDetail({ course }: { course: Course }) {
    const params = useParams();
+   const router = useRouter()
    const courseId = params.id as string;
    const { getProgressPercentage, isLessonCompleted } = useProgress();
 
@@ -69,7 +73,7 @@ export default function CourseDetail({ course }: { course: Course }) {
                   <div className="absolute bottom-0 left-1/2 w-64 h-64 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
                </div>
 
-               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+               <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
                   <div className="lg:flex lg:items-center lg:justify-between gap-12">
                      <div className="lg:w-2/3">
                         <Badge variant="secondary" className="mb-4 bg-white/10 backdrop-blur-sm text-white border-white/20">
@@ -156,7 +160,7 @@ export default function CourseDetail({ course }: { course: Course }) {
             </div>
 
             {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-8">
+            <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-8">
                {/* Progress Bar */}
                <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -189,17 +193,12 @@ export default function CourseDetail({ course }: { course: Course }) {
                               <div>
                                  <CardTitle className="flex items-center text-xl">
                                     <BookOpen className="h-5 w-5 mr-2 text-indigo-600" />
-                                    Course Curriculum
+                                    Modules
                                  </CardTitle>
                                  <p className="text-gray-600 mt-1">
                                     {course.modules.length} modules • {totalLectures} lectures • {courseStats.duration} total length
                                  </p>
                               </div>
-                              <Link href={`/courses/${courseId}/lecture/1`}>
-                                 <Button size="sm" className="shadow-sm">
-                                    <Play className="h-4 w-4 mr-2" /> Resume Learning
-                                 </Button>
-                              </Link>
                            </div>
                            <CardContent className="pb-6">
                               <div className="space-y-2">
@@ -263,11 +262,8 @@ export default function CourseDetail({ course }: { course: Course }) {
                                                                   <span className={`text-xs ${isCompleted ? 'text-green-500' : isUnlocked ? 'text-gray-500' : 'text-gray-400'}`}>
                                                                      15 min • {isCompleted ? 'Completed' : isUnlocked ? 'Available' : 'Locked'}
                                                                   </span>
-                                                               
-                                                                     <Badge variant="outline" className="ml-2 text-xs border-blue-200 text-blue-600 bg-blue-50">
-                                                                        Preview
-                                                                     </Badge>
-                                                                
+
+
                                                                </div>
                                                             </div>
                                                          </div>
@@ -350,62 +346,7 @@ export default function CourseDetail({ course }: { course: Course }) {
                      </motion.div>
 
                      {/* Course Details Card */}
-                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.6 }}
-                     >
-                        <Card className="border-0 shadow-sm">
-                           <CardHeader>
-                              <CardTitle className="text-xl">Course Details</CardTitle>
-                           </CardHeader>
-                           <CardContent className="space-y-4">
-                              <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                 <span className="text-gray-600 flex items-center">
-                                    <Clock className="h-4 w-4 mr-2 text-indigo-500" /> Duration
-                                 </span>
-                                 <span className="font-medium">{courseStats.duration}</span>
-                              </div>
-                              <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                 <span className="text-gray-600 flex items-center">
-                                    <BarChart2 className="h-4 w-4 mr-2 text-indigo-500" /> Level
-                                 </span>
-                                 <Badge variant="outline" className="border-indigo-200 text-indigo-700">
-                                    {courseStats.level}
-                                 </Badge>
-                              </div>
-                              <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                 <span className="text-gray-600 flex items-center">
-                                    <User className="h-4 w-4 mr-2 text-indigo-500" /> Students
-                                 </span>
-                                 <span className="font-medium">{courseStats.students.toLocaleString()}</span>
-                              </div>
-                              <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                 <span className="text-gray-600 flex items-center">
-                                    <Star className="h-4 w-4 mr-2 text-indigo-500" /> Rating
-                                 </span>
-                                 <div className="flex items-center">
-                                    <Star className="h-4 w-4 text-yellow-400 mr-1" />
-                                    <span className="font-medium">{courseStats.rating}</span>
-                                    <span className="text-gray-500 text-sm ml-1">({courseStats.reviews})</span>
-                                 </div>
-                              </div>
-                              <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                 <span className="text-gray-600 flex items-center">
-                                    <Award className="h-4 w-4 mr-2 text-indigo-500" /> Certificate
-                                 </span>
-                                 <Badge variant={courseStats.certificate ? "default" : "outline"} className="bg-green-100 text-green-800">
-                                    {courseStats.certificate ? "Included" : "Not Included"}
-                                 </Badge>
-                              </div>
-                              <div className="flex justify-between items-center py-2">
-                                 <span className="text-gray-600">Last updated</span>
-                                 <span className="font-medium">{courseStats.lastUpdated}</span>
-                              </div>
-                           </CardContent>
-                        </Card>
-                     </motion.div>
-
+                     <CourseQTA courseStats={courseStats} />
                      {/* Skills Covered Card */}
                      <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -430,37 +371,7 @@ export default function CourseDetail({ course }: { course: Course }) {
 
                      {/* Certificate Preview */}
                      {courseStats.certificate && (
-                        <motion.div
-                           initial={{ opacity: 0, y: 20 }}
-                           animate={{ opacity: 1, y: 0 }}
-                           transition={{ duration: 0.5, delay: 0.8 }}
-                        >
-                           <Card className="border-0 shadow-sm bg-gradient-to-br from-indigo-50 to-purple-50">
-                              <CardHeader>
-                                 <CardTitle className="text-xl flex items-center">
-                                    <Trophy className="h-5 w-5 mr-2 text-yellow-600" /> Earn Your Certificate
-                                 </CardTitle>
-                              </CardHeader>
-                              <CardContent>
-                                 <div className="text-center">
-                                    <div className="bg-white p-4 rounded-lg border border-gray-200 inline-block mb-4">
-                                       <div className="w-48 h-32 bg-gradient-to-r from-indigo-100 to-purple-100 flex items-center justify-center rounded border border-gray-200">
-                                          <div className="text-center">
-                                             <Award className="h-10 w-10 mx-auto text-yellow-500" />
-                                             <p className="text-xs font-medium mt-2">Certificate of Completion</p>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <p className="text-sm text-gray-600 mb-4">
-                                       Complete this course to earn a certificate that you can share with your professional network.
-                                    </p>
-                                    <Button variant="outline" className="border-indigo-200 text-indigo-700 hover:bg-indigo-50">
-                                       View Sample Certificate
-                                    </Button>
-                                 </div>
-                              </CardContent>
-                           </Card>
-                        </motion.div>
+                        <Certificate />
                      )}
                   </div>
                </div>
