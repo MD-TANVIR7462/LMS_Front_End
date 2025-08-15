@@ -1,5 +1,4 @@
 "use client";
-
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useProgress } from "@/contexts/ProgressContext";
 import { useParams } from "next/navigation";
@@ -126,7 +125,7 @@ export default function CourseDetail({ course }: { course: Course }) {
                            transition={{ duration: 0.5, delay: 0.3 }}
                            className="flex flex-wrap gap-4"
                         >
-                           <Link href={`/courses/${courseId}/lecture/1`}>
+                           <Link href={`/courses/${courseId}/lecture/${course.modules[0]?.lectures[0]?._id}`}>
                               <Button size="lg" className="shadow-lg hover:shadow-xl transition-shadow">
                                  <Play className="h-4 w-4 mr-2" /> Start Learning
                               </Button>

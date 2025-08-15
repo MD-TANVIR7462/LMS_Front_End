@@ -4,7 +4,7 @@ import CourseDetail from './CourseDetails';
 
 
 
-const AdminCoursePage = async ({ params }: { params: any }) => {
+const UserCoursePage = async ({ params }: { params: any }) => {
 
   const courseId = params.id as string;
   const course = (await getSingleData('/course/get-course', courseId))?.data;
@@ -17,4 +17,4 @@ const AdminCoursePage = async ({ params }: { params: any }) => {
   );
 };
 
-export default AdminCoursePage;
+export default UserCoursePage;
