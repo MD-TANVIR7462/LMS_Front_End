@@ -17,7 +17,7 @@ export const CTASection = () => (
           Start Your Journey
           <ArrowRight className="ml-3 h-6 w-6" />
         </Button>
-        <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black px-12 py-6 text-lg font-bold rounded-full">
+        <Button size="lg" variant="outline" className="bg-white text-black hover:bg-gray-100 px-12 py-6 text-lg font-bold rounded-full">
           Explore Courses
         </Button>
       </div>

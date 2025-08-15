@@ -43,8 +43,8 @@ export const Navigation = () => {
 
   const navItems = [
     { href: '/', label: 'Home', icon: HomeIcon },
-    { href: '/courses', label: 'My Courses', icon: BookOpen },
-    { href: '/settings', label: 'Settings', icon: Settings },
+    { href: '/courses', label: 'Courses', icon: BookOpen },
+    // { href: '/settings', label: 'Settings', icon: Settings },
   ];
 
   return (
@@ -52,12 +52,10 @@ export const Navigation = () => {
       {/* Fixed navbar that stays on top */}
       <motion.nav 
         className={cn(
-          "fixed w-full z-50 transition-all duration-300 border  border-b-black/40",
+          " w-full z-50 transition-all duration-300 border  border-b-black/40",
           scrolled ? "bg-white/95 backdrop-blur-md shadow-sm" : "bg-white"
         )}
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5 }}
+       
         style={{
   
           boxShadow: scrolled ? '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' : 'none'
@@ -74,7 +72,7 @@ export const Navigation = () => {
                 >
                   <GraduationCap className="h-8 w-8 text-primary mr-2 group-hover:text-primary/80 transition-colors" />
                   <span className="font-bold text-xl text-gray-900 group-hover:text-primary/80 transition-colors">
-                    LearnHub Pro
+                    LMS
                   </span>
                 </motion.div>
               </Link>
@@ -215,7 +213,7 @@ export const Navigation = () => {
       </motion.nav>
 
       {/* Spacer to push content down */}
-      <div className="h-20 w-full"></div>
+      {/* <div className="h-20 w-full"></div> */}
     </>
   );
 };

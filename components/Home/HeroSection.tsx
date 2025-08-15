@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { BookOpen, ArrowRight, Play, Star } from 'lucide-react';
+import Link from 'next/link';
 
 export const HeroSection = () => (
   <section className="relative min-h-screen flex items-center justify-center bg-black text-white overflow-hidden">
@@ -42,11 +43,11 @@ export const HeroSection = () => (
       </p>
 
       <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
-        <Button size="lg" className="bg-white text-black hover:bg-gray-100 px-10 py-6 text-lg font-semibold rounded-full">
+     <Link href={"/courses"}>   <Button size="lg" className="bg-white text-black hover:bg-gray-100 px-10 py-6 text-lg font-semibold rounded-full">
           Start Learning
           <ArrowRight className="ml-3 h-5 w-5" />
-        </Button>
-        <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black px-10 py-6 text-lg font-semibold rounded-full group">
+        </Button></Link>
+        <Button size="lg" variant="outline" className="border-white  text-black px-10 py-6 text-lg font-semibold rounded-full group">
           <Play className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
           Watch Demo
         </Button>
