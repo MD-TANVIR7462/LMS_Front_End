@@ -63,9 +63,20 @@ export default function CourseDetail({ course }: { course: Course }) {
 
    return (
       <ProtectedRoute requiredRole="user">
-         <div className="min-h-screen bg-gray-50">
+         <div className="min-h-screen ">
             {/* Hero Section with Gradient Background */}
-            <div className="relative bg-gradient-to-br from-indigo-900 to-purple-800 text-white overflow-hidden">
+            {/* Background elements */}
+            <div className="relative  flex items-center justify-center bg-black text-white overflow-hidden">
+
+            
+            <div className="absolute inset-0 opacity-10">
+               <div className="absolute inset-0" style={{
+                  backgroundImage: `radial-gradient(circle at 25% 25%, white 2px, transparent 2px),
+                         radial-gradient(circle at 75% 75%, white 2px, transparent 2px)`,
+                  backgroundSize: '100px 100px'
+               }}></div>
+            </div>
+            <div className="relative  text-white overflow-hidden">
                {/* Decorative elements */}
                <div className="absolute inset-0 opacity-10">
                   <div className="absolute top-0 left-20 w-64 h-64 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
@@ -147,7 +158,7 @@ export default function CourseDetail({ course }: { course: Course }) {
                            transition={{ duration: 0.5 }}
                            className="relative"
                         >
-                           <div className="absolute -inset-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 opacity-75 blur-lg"></div>
+                           <div className="absolute -inset-2 rounded-md" ></div>
                            <img
                               src={course.thumbnail}
                               alt={course.title}
@@ -157,6 +168,7 @@ export default function CourseDetail({ course }: { course: Course }) {
                      </div>
                   </div>
                </div>
+            </div>
             </div>
 
             {/* Main Content */}
@@ -184,11 +196,13 @@ export default function CourseDetail({ course }: { course: Course }) {
                   <div className="lg:col-span-2 space-y-8">
                      {/* Course Outline Card */}
                      <motion.div
+                     className="l"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.5 }}
+                        transition={{ duration: 0.5, delay: 0.5 }
+                     }
                      >
-                        <Card className="border-0 shadow-sm">
+                        <Card className="border-0 shadow-sm ">
                            <div className="p-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                               <div>
                                  <CardTitle className="flex items-center text-xl">
@@ -200,7 +214,7 @@ export default function CourseDetail({ course }: { course: Course }) {
                                  </p>
                               </div>
                            </div>
-                           <CardContent className="pb-6">
+                           <CardContent className="pb-6  max-h-[500px] overflow-y-auto ">
                               <div className="space-y-2">
                                  {course.modules.map((module, moduleIndex) => {
                                     const [isExpanded, setIsExpanded] = useState(moduleIndex === 0);
