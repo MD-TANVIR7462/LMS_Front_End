@@ -1,12 +1,12 @@
-import React from 'react';
-import Login from './login/page';
+import React from "react";
+import Login from "./login/page";
 
 const Authlayout = () => {
-    return (
-        <div>
-            <Login/>
-        </div>
-    );
+  return (
+    <>
+      <Login />
+    </>
+  );
 };
 
 export default Authlayout;
