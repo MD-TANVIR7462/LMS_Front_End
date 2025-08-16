@@ -1,7 +1,7 @@
 "use client";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useProgress } from "@/contexts/ProgressContext";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -11,16 +11,26 @@ import Link from "next/link";
 import { Course } from "@/types";
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Certificate from "@/components/user/Certificate";
 import CourseQTA from "@/components/user/CourseQTA";
-import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux/features/hooks";
+import { logout, useCurrentToken, useCurrentUser } from "@/redux/features/auth/authSlice";
+import { getData } from "@/server/serverAction";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
+
 
 export default function CourseDetail({ course }: { course: Course }) {
    const params = useParams();
-   const router = useRouter()
    const courseId = params.id as string;
    const { getProgressPercentage, isLessonCompleted } = useProgress();
+   const router = useRouter()
+   const token = useAppSelector(useCurrentToken);
+   const user = useAppSelector(useCurrentUser);
+   const disPatch = useDispatch();
+   const [progress, setProgress] = useState([])
+   const [dbUser, setdbUser] = useState([])
 
    if (!course) {
       return (
@@ -35,12 +45,56 @@ export default function CourseDetail({ course }: { course: Course }) {
       );
    }
 
+
+   useEffect(() => {
+      const checkUser = async () => {
+         if (!token || !user) return; // exit early if no token or user
+
+         try {
+            const response = (await getData("/auth/register/me", token))?.data[0];
+            if (response) {
+               setdbUser(response);
+               const progress = (await getData(`progress/${response._id}/${course._id}`)).data
+               setProgress(progress)
+               return
+            }
+            setProgress([])
+            setdbUser([])
+
+         } catch (err) {
+            setdbUser([])
+            setProgress([])
+         }
+      };
+
+      checkUser();
+   }, [token, user, disPatch, router]); // router and disPatch are stable, this is fine
+
+
+
+
+   //getlecture progress 
+
+   // const getModuleProgress = async (moduleId: string) => {
+   //    console.log(moduleId)
+   //    const progress = (await getData(`progress/${course._id}/${moduleId}`)).data
+   //    console.log(progress)
+   // }
+
+
+
+
+
+
+
+
+
    const totalLectures = course.modules.reduce((acc: any, module: any) => acc + module.lectures.length, 0);
    const progressPercentage = getProgressPercentage(courseId, totalLectures);
 
    // Enhanced course stats with more realistic data
    const courseStats = {
-      duration: `${Math.round(totalLectures * 15 / 60)} hours`,
+      duration: `${Math.round(totalLectures * 30 / 50)} hours`,
       students: Math.floor(Math.random() * 10000) + 1000,
       rating: (Math.random() * 0.7 + 4.3).toFixed(1),
       reviews: Math.floor(Math.random() * 500) + 100,
@@ -68,107 +122,107 @@ export default function CourseDetail({ course }: { course: Course }) {
             {/* Background elements */}
             <div className="relative  flex items-center justify-center bg-black text-white overflow-hidden">
 
-            
-            <div className="absolute inset-0 opacity-10">
-               <div className="absolute inset-0" style={{
-                  backgroundImage: `radial-gradient(circle at 25% 25%, white 2px, transparent 2px),
-                         radial-gradient(circle at 75% 75%, white 2px, transparent 2px)`,
-                  backgroundSize: '100px 100px'
-               }}></div>
-            </div>
-            <div className="relative  text-white overflow-hidden">
-               {/* Decorative elements */}
+
                <div className="absolute inset-0 opacity-10">
-                  <div className="absolute top-0 left-20 w-64 h-64 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-                  <div className="absolute top-0 right-20 w-64 h-64 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-                  <div className="absolute bottom-0 left-1/2 w-64 h-64 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+                  <div className="absolute inset-0" style={{
+                     backgroundImage: `radial-gradient(circle at 25% 25%, white 2px, transparent 2px),
+                         radial-gradient(circle at 75% 75%, white 2px, transparent 2px)`,
+                     backgroundSize: '100px 100px'
+                  }}></div>
                </div>
+               <div className="relative  text-white overflow-hidden">
+                  {/* Decorative elements */}
+                  <div className="absolute inset-0 opacity-10">
+                     <div className="absolute top-0 left-20 w-64 h-64 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+                     <div className="absolute top-0 right-20 w-64 h-64 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+                     <div className="absolute bottom-0 left-1/2 w-64 h-64 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+                  </div>
 
-               <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
-                  <div className="lg:flex lg:items-center lg:justify-between gap-12">
-                     <div className="lg:w-2/3">
-                        <Badge variant="secondary" className="mb-4 bg-white/10 backdrop-blur-sm text-white border-white/20">
-                           {"Web Development"}
-                        </Badge>
+                  <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+                     <div className="lg:flex lg:items-center lg:justify-between gap-12">
+                        <div className="lg:w-2/3">
+                           <Badge variant="secondary" className="mb-4 bg-white/10 backdrop-blur-sm text-white border-white/20">
+                              {"Web Development"}
+                           </Badge>
 
-                        <motion.h1
-                           initial={{ opacity: 0, y: 20 }}
-                           animate={{ opacity: 1, y: 0 }}
-                           transition={{ duration: 0.5 }}
-                           className="text-4xl md:text-5xl font-bold mb-4 leading-tight"
-                        >
-                           {course.title}
-                        </motion.h1>
+                           <motion.h1
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.5 }}
+                              className="text-4xl md:text-5xl font-bold mb-4 leading-tight"
+                           >
+                              {course.title}
+                           </motion.h1>
 
-                        <motion.p
-                           initial={{ opacity: 0, y: 20 }}
-                           animate={{ opacity: 1, y: 0 }}
-                           transition={{ duration: 0.5, delay: 0.1 }}
-                           className="text-xl text-blue-100 mb-8 max-w-3xl"
-                        >
-                           {course.description}
-                        </motion.p>
+                           <motion.p
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.5, delay: 0.1 }}
+                              className="text-xl text-blue-100 mb-8 max-w-3xl"
+                           >
+                              {course.description}
+                           </motion.p>
 
-                        <motion.div
-                           initial={{ opacity: 0, y: 20 }}
-                           animate={{ opacity: 1, y: 0 }}
-                           transition={{ duration: 0.5, delay: 0.2 }}
-                           className="flex flex-wrap items-center gap-6 mb-8"
-                        >
-                           <div className="flex items-center bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                              <Star className="h-5 w-5 text-yellow-400 mr-1" />
-                              <span className="font-medium">{courseStats.rating}</span>
-                              <span className="text-blue-200 ml-1">({courseStats.reviews.toLocaleString()} reviews)</span>
-                           </div>
-                           <div className="flex items-center text-blue-200 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                              <User className="h-5 w-5 mr-1" />
-                              {courseStats.students.toLocaleString()} students
-                           </div>
-                           <div className="flex items-center text-blue-200 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                              <Clock className="h-5 w-5 mr-1" />
-                              {courseStats.duration}
-                           </div>
-                           <div className="flex items-center text-blue-200 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                              <Award className="h-5 w-5 mr-1" />
-                              {courseStats.level}
-                           </div>
-                        </motion.div>
+                           <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.5, delay: 0.2 }}
+                              className="flex flex-wrap items-center gap-6 mb-8"
+                           >
+                              <div className="flex items-center bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                                 <Star className="h-5 w-5 text-yellow-400 mr-1" />
+                                 <span className="font-medium">{courseStats.rating}</span>
+                                 <span className="text-blue-200 ml-1">({courseStats.reviews.toLocaleString()} reviews)</span>
+                              </div>
+                              <div className="flex items-center text-blue-200 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                                 <User className="h-5 w-5 mr-1" />
+                                 {courseStats.students.toLocaleString()} students
+                              </div>
+                              <div className="flex items-center text-blue-200 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                                 <Clock className="h-5 w-5 mr-1" />
+                                 {courseStats.duration}
+                              </div>
+                              <div className="flex items-center text-blue-200 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                                 <Award className="h-5 w-5 mr-1" />
+                                 {courseStats.level}
+                              </div>
+                           </motion.div>
 
-                        <motion.div
-                           initial={{ opacity: 0, y: 20 }}
-                           animate={{ opacity: 1, y: 0 }}
-                           transition={{ duration: 0.5, delay: 0.3 }}
-                           className="flex flex-wrap gap-4"
-                        >
-                           <Link href={`/courses/${courseId}/lecture/${course.modules[0]?.lectures[0]?._id}`}>
-                              <Button size="lg" className="shadow-lg hover:shadow-xl transition-shadow">
-                                 <Play className="h-4 w-4 mr-2" /> Start Learning
+                           <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.5, delay: 0.3 }}
+                              className="flex flex-wrap gap-4"
+                           >
+                              <Link href={`/courses/${courseId}/lecture/${course.modules[0]?.lectures[0]?._id}`}>
+                                 <Button size="lg" className="shadow-lg hover:shadow-xl transition-shadow">
+                                    <Play className="h-4 w-4 mr-2" /> Start Learning
+                                 </Button>
+                              </Link>
+                              <Button variant="outline" size="lg" className="bg-transparent border-white/30 text-white hover:bg-white/10 hover:text-white">
+                                 <Trophy className="h-4 w-4 mr-2" /> Earn Certificate
                               </Button>
-                           </Link>
-                           <Button variant="outline" size="lg" className="bg-transparent border-white/30 text-white hover:bg-white/10 hover:text-white">
-                              <Trophy className="h-4 w-4 mr-2" /> Earn Certificate
-                           </Button>
-                        </motion.div>
-                     </div>
+                           </motion.div>
+                        </div>
 
-                     <div className="lg:w-1/3 mt-12 lg:mt-0">
-                        <motion.div
-                           initial={{ opacity: 0, scale: 0.9 }}
-                           animate={{ opacity: 1, scale: 1 }}
-                           transition={{ duration: 0.5 }}
-                           className="relative"
-                        >
-                           <div className="absolute -inset-2 rounded-md" ></div>
-                           <img
-                              src={course.thumbnail}
-                              alt={course.title}
-                              className="relative w-full rounded-xl shadow-2xl border-4 border-white/20 transform hover:scale-[1.02] transition-transform duration-300"
-                           />
-                        </motion.div>
+                        <div className="lg:w-1/3 mt-12 lg:mt-0">
+                           <motion.div
+                              initial={{ opacity: 0, scale: 0.9 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ duration: 0.5 }}
+                              className="relative"
+                           >
+                              <div className="absolute -inset-2 rounded-md" ></div>
+                              <img
+                                 src={course.thumbnail}
+                                 alt={course.title}
+                                 className="relative w-full rounded-xl shadow-2xl border-4 border-white/20 transform hover:scale-[1.02] transition-transform duration-300"
+                              />
+                           </motion.div>
+                        </div>
                      </div>
                   </div>
                </div>
-            </div>
             </div>
 
             {/* Main Content */}
@@ -196,11 +250,11 @@ export default function CourseDetail({ course }: { course: Course }) {
                   <div className="lg:col-span-2 space-y-8">
                      {/* Course Outline Card */}
                      <motion.div
-                     className="l"
+                        className="l"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.5 }
-                     }
+                        }
                      >
                         <Card className="border-0 shadow-sm ">
                            <div className="p-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
@@ -227,7 +281,7 @@ export default function CourseDetail({ course }: { course: Course }) {
                                           >
                                              <div className="text-left">
                                                 <h3 className="font-semibold text-lg">
-                                                   <span className="text-indigo-600">Module {module?.moduleNumber}:</span> {module.title}
+                                                   <span className="text-indigo-600">Module {moduleIndex + 1}:</span> {module.title}
                                                 </h3>
                                                 <p className="text-sm text-gray-600 mt-1">
                                                    {module.lectures.length} lectures • {Math.round(module.lectures.length * 15 / 60)} min

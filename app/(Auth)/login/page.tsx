@@ -47,32 +47,7 @@ export default function Login() {
     }
   };
 
-  // const token = useAppSelector(useCurrentToken);
-  // const user = useAppSelector(useCurrentUser);
-  // const disPatch = useDispatch();
-
-  // const checkUser = async () => {
-  //   try {
-  //     if (token && user) {
-  //       const response = await getData("/auth/register/me", token);
-  //       if (!response.success) {
-  //         setIsChecking(false);
-  //         disPatch(logout());
-  //       } else {
-  //         router.replace("/dashboard");
-  //       }
-  //     } else {
-  //       setIsChecking(false);
-  //     }
-  //   } catch (err) {
-  //     toast.error("Something went wrong!");
-  //     router.push("/");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   checkUser();
-  // }, [router, token, user, disPatch]);
+ 
 
   const demoCredentials = [
     { role: "Admin", email: "admin@gmail.com", password: "admin123" },

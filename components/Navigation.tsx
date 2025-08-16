@@ -112,7 +112,7 @@ export const Navigation = () => {
           <div className="flex justify-between h-20">
             {/* Logo */}
             <div className="flex items-center">
-              <Link href="/" className="flex items-center group">
+              <Link href="/courses" className="flex items-center group">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
