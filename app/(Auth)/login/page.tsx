@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,18 +10,21 @@ import { GraduationCap, Loader2 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { jwtDecode } from "jwt-decode";
-import { useAppDispatch } from "@/redux/features/hooks";
-import { setUser } from "@/redux/features/auth/authSlice";
-
+import { useAppDispatch, useAppSelector } from "@/redux/features/hooks";
+import { logout, setUser, useCurrentToken, useCurrentUser } from "@/redux/features/auth/authSlice";
+import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { getData } from "@/server/serverAction";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+   
   const router = useRouter();
   const [login] = useLoginMutation();
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,22 +34,24 @@ export default function Login() {
     try {
       const res = await login({ email, password }).unwrap();
       const user = jwtDecode(res?.data?.accessToken);
-      dispatch(setUser ({user:user,token:res?.data?.accressToken}));
-       router.push("/");
-    } catch (err) {}
 
-    setIsSubmitting(false);
+      dispatch(setUser({ user, token: res?.data?.accessToken }));
+      router.push("/");
+      toast.success("Successfully Logged in");
+    } catch (err) {
+      const message = (err as any)?.data?.message;
+      console.log(err);
+      toast.error(message || "Try again!");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  // useEffect(() => {
-  //   if (user) {
-  //     router.push(user.role === 'admin' ? '/admin' : '/');
-  //   }
-  // }, [user, router]);
+  
 
   const demoCredentials = [
-    { role: "Admin", email: "admin@lms.com", password: "password" },
-    { role: "User", email: "user@lms.com", password: "password" },
+    { role: "Admin", email: "admin@gmail.com", password: "admin123" },
+    { role: "User", email: "user@gmail.com", password: "user123" },
   ];
 
   return (

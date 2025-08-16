@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@/contexts/AuthContext';
+
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -12,15 +12,14 @@ import {
   X,
   HomeIcon,
   BookOpen,
-  Settings,
-  MessageSquare
+
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 export const Navigation = () => {
-  const { user, logout } = useAuth();
+  // const { user, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -34,13 +33,15 @@ export const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if (!user) return null;
+  // if (!user) return null;
 
   const handleLogout = () => {
-    logout();
+    // logout();
     router.push('/login');
   };
+const user={
 
+}
   const navItems = [
     { href: '/', label: 'Home', icon: HomeIcon },
     { href: '/courses', label: 'Courses', icon: BookOpen },
@@ -112,8 +113,8 @@ export const Navigation = () => {
                   <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-500 border-2 border-white"></span>
                 </div>
                 <div className="ml-3 text-left">
-                  <p className="text-sm font-medium text-gray-900">{user.name}</p>
-                  <p className="text-xs text-gray-500">{user.email}</p>
+                  <p className="text-sm font-medium text-gray-900">{user?.name}</p>
+                  <p className="text-xs text-gray-500">{user?.email}</p>
                 </div>
               </motion.div>
               

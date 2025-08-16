@@ -1,8 +1,7 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState, ReactNode } from 'react';
-import { UserProgress } from '@/types';
-import { useAuth } from './AuthContext';
+import { createContext, useContext, useState, ReactNode } from "react";
+import { UserProgress } from "@/types";
 
 interface ProgressContextType {
   getUserProgress: (courseId: string) => UserProgress | undefined;
@@ -16,39 +15,40 @@ const ProgressContext = createContext<ProgressContextType | undefined>(undefined
 export const useProgress = () => {
   const context = useContext(ProgressContext);
   if (!context) {
-    throw new Error('useProgress must be used within a ProgressProvider');
+    throw new Error("useProgress must be used within a ProgressProvider");
   }
   return context;
 };
 
 export const ProgressProvider = ({ children }: { children: ReactNode }) => {
-  const { user } = useAuth();
+  const user = { name: "Tanvir"};
   const [userProgress, setUserProgress] = useState<UserProgress[]>(user?.progress || []);
 
   const getUserProgress = (courseId: string) => {
-    return userProgress.find(progress => progress.courseId === courseId);
+    return userProgress.find((progress) => progress.courseId === courseId);
   };
 
   const completeLesson = (courseId: string, lectureId: string) => {
-    setUserProgress(prev => {
-      const existingProgress = prev.find(p => p.courseId === courseId);
-      
+    setUserProgress((prev) => {
+      const existingProgress = prev.find((p) => p.courseId === courseId);
+
       if (existingProgress) {
         if (!existingProgress.completedLectures.includes(lectureId)) {
-          return prev.map(p => 
-            p.courseId === courseId 
-              ? { ...p, completedLectures: [...p.completedLectures, lectureId] }
-              : p
+          return prev.map((p) =>
+            p.courseId === courseId ? { ...p, completedLectures: [...p.completedLectures, lectureId] } : p
           );
         }
         return prev;
       } else {
-        return [...prev, {
-          courseId,
-          completedLectures: [lectureId],
-          currentLecture: lectureId,
-          progressPercentage: 0
-        }];
+        return [
+          ...prev,
+          {
+            courseId,
+            completedLectures: [lectureId],
+            currentLecture: lectureId,
+            progressPercentage: 0,
+          },
+        ];
       }
     });
   };
@@ -65,12 +65,14 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <ProgressContext.Provider value={{
-      getUserProgress,
-      completeLesson,
-      isLessonCompleted,
-      getProgressPercentage
-    }}>
+    <ProgressContext.Provider
+      value={{
+        getUserProgress,
+        completeLesson,
+        isLessonCompleted,
+        getProgressPercentage,
+      }}
+    >
       {children}
     </ProgressContext.Provider>
   );

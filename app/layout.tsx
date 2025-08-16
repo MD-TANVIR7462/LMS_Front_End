@@ -1,10 +1,10 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { AuthProvider } from '@/contexts/AuthContext';
 import { CourseProvider } from '@/contexts/CourseContext';
 import { ProgressProvider } from '@/contexts/ProgressContext';
 import { Toaster } from 'sonner';
+import ReduxProvider from './ReduxProvider';
 
 
 const inter = Inter({ subsets: ['latin'] });
@@ -23,14 +23,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Toaster position="bottom-right" expand={false} />
-        <AuthProvider>
+      <ReduxProvider>
           <CourseProvider>
             <ProgressProvider>
          
               {children}
             </ProgressProvider>
           </CourseProvider>
-        </AuthProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
