@@ -28,6 +28,8 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { CourseFormDialog } from "@/components/admin/CourseFormDialog";
 import { ConfirmAndDelete } from "@/components/shared/ConfirmAndDelete";
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
+import { useAppSelector } from "@/redux/features/hooks";
 
 export default function CourseIndex({ courses }: { courses: Course[] }) {
    const router = useRouter();
@@ -40,10 +42,10 @@ export default function CourseIndex({ courses }: { courses: Course[] }) {
          course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
          course.description.toLowerCase().includes(searchTerm.toLowerCase())
    );
-
+   const token = useAppSelector(useCurrentToken);
    const handleCreate = async (data: TCreateCourse) => {
       try {
-         const res = await createData("course/create-course", data);
+         const res = await createData("course/create-course", data, token as string);
          if (res?.success) {
             toast.success("Course created successfully");
          } else {
@@ -91,7 +93,7 @@ export default function CourseIndex({ courses }: { courses: Course[] }) {
    return (
       <ProtectedRoute requiredRole="admin">
          <div className="min-h-screen bg-gray-50">
-           
+
             <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
                {/* Header */}
                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">

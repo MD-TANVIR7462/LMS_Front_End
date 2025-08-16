@@ -9,8 +9,8 @@ import { CreateModule, Module } from "@/types";
 import { toast } from "sonner";
 import { createData, updateData } from "@/server/serverAction";
 import { useRouter } from "next/navigation";
-import { ConfirmAndDelete } from "../shared/ConfirmAndDelete";
-import { Circle } from "lucide-react";
+import { useAppSelector } from "@/redux/features/hooks";
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
 
 interface ModuleFormDialogProps {
   open: boolean;
@@ -30,10 +30,10 @@ export const ModuleFormDialog = ({ open, onOpenChange, courseId, module }: Modul
       setTitle("");
     }
   }, [module, open]);
-
+  const token = useAppSelector(useCurrentToken);
   const handleCreate = async (data: CreateModule) => {
     try {
-      const res = await createData("module/create-module", data);
+      const res = await createData("module/create-module", data, token as string);
       if (res?.success) {
         toast.success("module created successfully");
       } else {

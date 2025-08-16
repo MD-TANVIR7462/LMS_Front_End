@@ -11,6 +11,8 @@ import { Lecture, PDFNote } from "@/types";
 import { toast } from "sonner";
 import { createData, updateData } from "@/server/serverAction";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux/features/hooks";
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
 
 interface LectureFormDialogProps {
   open: boolean;
@@ -27,7 +29,6 @@ export const LectureFormDialog = ({ open, onOpenChange, moduleId, lecture }: Lec
     videoUrl: "",
     pdfNotes: [] as PDFNote[],
   });
-console.log(lecture)
   useEffect(() => {
     if (lecture) {
       setFormData({
@@ -43,10 +44,10 @@ console.log(lecture)
       });
     }
   }, [lecture, open]);
-
+  const token = useAppSelector(useCurrentToken);
   const handleCreate = async (data: Lecture) => {
     try {
-      const res = await createData("lecture/create-lecture", data);
+      const res = await createData("lecture/create-lecture", data, token as string);
       if (res?.success) {
         toast.success("lecture created successfully");
       } else {

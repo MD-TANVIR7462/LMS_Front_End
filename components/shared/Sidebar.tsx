@@ -2,47 +2,67 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  Users,
-  Monitor,
-  Menu,
-  X,
-  LogOut,
-  GraduationCap,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-
+import { Button } from "@/components/ui/button";
+import { Users, Monitor, Menu, X, LogOut, GraduationCap } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/features/auth/authSlice";
+import { toast } from "sonner";
 
 const adminNavigation = [
   { name: "Dashboard", href: "/admin", icon: Users },
-  // { name: "Profile", href: "/equipment", icon: Contact },
   { name: "Courses", href: "/admin/courses", icon: Monitor },
 ];
 
-const userNavigation = [
-  // { name: "Dashboard", href: "/", icon: Users },
-  // { name: "Profile", href: "/equipment", icon: Contact },
-  { name: "Courses", href: "/courses", icon: Monitor },
-];
-
 export function Sidebar() {
- ;
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const pathname = usePathname();
+  const dispatch = useDispatch();
+
+  // ✅ Toast-based logout confirmation
   const handleLogout = () => {
-    logout();
-    router.push("/login");
+    toast.custom((t) => (
+      <div className="flex items-center justify-between gap-4 bg-white dark:bg-zinc-900 text-sm border border-zinc-300 dark:border-zinc-700 px-4 py-3 rounded-lg shadow-lg w-full max-w-lg">
+        <span className="text-zinc-900 dark:text-zinc-100">
+          Are you sure you want to sign out?
+        </span>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => {
+              toast.dismiss(t);
+              toast.info("Logout canceled.");
+            }}
+            className="px-3 py-1 rounded-md text-sm bg-zinc-200 dark:bg-zinc-700 text-black dark:text-white hover:bg-zinc-300 dark:hover:bg-zinc-600"
+          >
+            No
+          </button>
+          <button
+            onClick={() => {
+              toast.dismiss(t);
+              dispatch(logout());
+              toast.success("Signed out successfully.");
+              router.push("/login");
+            }}
+            className="px-2 py-1 rounded-md text-sm bg-red-600 text-white hover:bg-red-700"
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    ));
   };
-  console.log(user);
+
   return (
     <>
       {/* Mobile menu button */}
       <div className="lg:hidden fixed top-4 left-4 z-50">
-        <Button variant="outline" size="icon" onClick={() => setIsOpen(!isOpen)} className="h-10 w-10">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => setIsOpen(!isOpen)}
+          className="h-10 w-10"
+        >
           {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </Button>
       </div>
@@ -65,29 +85,22 @@ export function Sidebar() {
 
           {/* Navigation */}
           <nav className="flex-1 px-4 py-6 space-y-2">
-            {user?.role &&
-              (() => {
-                const navigation = user.role === "admin" ? adminNavigation : userNavigation;
-
-                return navigation.map((item) => {
-                  const isActive = pathname.startsWith(item.href);
-                  return (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      onClick={() => setIsOpen(false)}
-                      className={cn(
-                        "flex items-center px-3 py-2 text-sm font-medium rounded-sm transition-colors hover:bg-blue-400"
-                        
-                      )}
-                    >
-                      <item.icon className="mr-3 h-5 w-5" />
-                      {item.name}
-                    </Link>
-                  );
-                });
-              })()}
+            {adminNavigation.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className={cn(
+                  "flex items-center px-3 py-2 text-sm font-medium rounded-sm transition-colors hover:bg-blue-400"
+                )}
+              >
+                <item.icon className="mr-3 h-5 w-5" />
+                {item.name}
+              </Link>
+            ))}
           </nav>
+
+          {/* Logout Button */}
           <button
             onClick={handleLogout}
             className="flex items-center bg-red-500/10 p-3 hover:bg-red-500/20 transition-colors duration-200 text-red-500 hover:text-red-600 font-semibold"
@@ -99,7 +112,12 @@ export function Sidebar() {
       </div>
 
       {/* Overlay for mobile */}
-      {isOpen && <div className="fixed inset-0 bg-black/50 z-30 lg:hidden" onClick={() => setIsOpen(false)} />}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
     </>
   );
 }
