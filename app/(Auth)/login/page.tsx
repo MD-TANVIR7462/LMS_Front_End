@@ -1,48 +1,53 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { GraduationCap, Loader2 } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { GraduationCap, Loader2 } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { jwtDecode } from "jwt-decode";
+import { useAppDispatch } from "@/redux/features/hooks";
+import { setUser } from "@/redux/features/auth/authSlice";
+
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login, user } = useAuth();
   const router = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      router.push(user.role === 'admin' ? '/admin' : '/');
-    }
-  }, [user, router]);
+  const [login] = useLoginMutation();
+  const dispatch = useAppDispatch()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsSubmitting(true);
 
-    const success = await login(email, password);
-    
-    if (success) {
-      // Redirect will be handled by useEffect
-    } else {
-      setError('Invalid credentials. Please try again.');
-    }
-    
+    try {
+      const res = await login({ email, password }).unwrap();
+      const user = jwtDecode(res?.data?.accessToken);
+      dispatch(setUser ({user:user,token:res?.data?.accressToken}));
+       router.push("/");
+    } catch (err) {}
+
     setIsSubmitting(false);
   };
 
+  // useEffect(() => {
+  //   if (user) {
+  //     router.push(user.role === 'admin' ? '/admin' : '/');
+  //   }
+  // }, [user, router]);
+
   const demoCredentials = [
-    { role: 'Admin', email: 'admin@lms.com', password: 'password' },
-    { role: 'User', email: 'user@lms.com', password: 'password' }
+    { role: "Admin", email: "admin@lms.com", password: "password" },
+    { role: "User", email: "user@lms.com", password: "password" },
   ];
 
   return (
@@ -59,9 +64,7 @@ export default function Login() {
         <Card>
           <CardHeader>
             <CardTitle>Sign In</CardTitle>
-            <CardDescription>
-              Enter your credentials to access the platform
-            </CardDescription>
+            <CardDescription>Enter your credentials to access the platform</CardDescription>
           </CardHeader>
           <CardContent>
             {error && (
@@ -82,7 +85,7 @@ export default function Login() {
                   required
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
@@ -95,18 +98,14 @@ export default function Login() {
                 />
               </div>
 
-              <Button 
-                type="submit" 
-                className="w-full" 
-                disabled={isSubmitting}
-              >
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
                 {isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Signing In...
                   </>
                 ) : (
-                  'Sign In'
+                  "Sign In"
                 )}
               </Button>
             </form>
@@ -115,7 +114,7 @@ export default function Login() {
               <p className="text-sm text-gray-600 mb-4">Demo Credentials:</p>
               <div className="space-y-2">
                 {demoCredentials.map((cred, index) => (
-                  <div 
+                  <div
                     key={index}
                     className="p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
                     onClick={() => {
