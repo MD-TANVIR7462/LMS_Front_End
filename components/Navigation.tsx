@@ -12,6 +12,7 @@ import {
   HomeIcon,
   BookOpen,
   LogIn,
+  Home,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -20,7 +21,6 @@ import { useAppSelector } from "@/redux/features/hooks";
 import { useDispatch } from "react-redux";
 import {
   logout,
-  useCurrentToken,
   useCurrentUser,
 } from "@/redux/features/auth/authSlice";
 import { toast } from "sonner";
@@ -37,7 +37,6 @@ export const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const token = useAppSelector(useCurrentToken);
   const user = useAppSelector(useCurrentUser) as UserType | null;
   const dispatch = useDispatch();
 
@@ -49,7 +48,6 @@ export const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // ✅ Confirm Logout Handler with Toast
   const handleLogout = () => {
     toast.custom((t) => (
       <div className="flex items-center justify-between gap-4 bg-white dark:bg-zinc-900 text-sm border border-zinc-300 dark:border-zinc-700 px-4 py-3 rounded-lg shadow-lg w-full max-w-lg">
@@ -71,7 +69,7 @@ export const Navigation = () => {
               toast.dismiss(t);
               dispatch(logout());
               toast.success("Signed out successfully.");
-              router.push("/login");
+              router.push("/");
             }}
             className="px-2 py-1 rounded-md text-sm bg-red-600 text-white hover:bg-red-700"
           >
@@ -83,9 +81,18 @@ export const Navigation = () => {
   };
 
   const navItems = [
-    { href: "/", label: "Home", icon: HomeIcon },
-    { href: "/courses", label: "Courses", icon: BookOpen },
-  ];
+      // { href: "/", label: "Home", icon: HomeIcon },
+      { href: "/courses", label: "Courses", icon: BookOpen },
+    ];
+  // const navItems = user?.role === "admin"
+  //   ? [
+  //     { href: "/admin", label: "Dashboard", icon: HomeIcon },
+  //     { href: "/admin/courses", label: "Courses", icon: BookOpen },
+  //   ]
+  //   : [
+  //     { href: "/", label: "Home", icon: HomeIcon },
+  //     { href: "/courses", label: "Courses", icon: BookOpen },
+  //   ];
 
   return (
     <>
@@ -182,7 +189,6 @@ export const Navigation = () => {
                   </motion.div>
                 </>
               ) : (
-               
                 <Link href="/login">
                   <Button
                     variant="default"
@@ -251,10 +257,10 @@ export const Navigation = () => {
                   );
                 })}
 
+                {/* Mobile user info & logout */}
                 <div className="border-t border-gray-200 pt-4 mt-2">
                   {user ? (
                     <>
-                      {/* User Info */}
                       <div className="flex items-center px-4 py-3 rounded-lg bg-gray-50">
                         <div className="relative">
                           <User className="h-6 w-6 text-gray-600" />
@@ -264,9 +270,7 @@ export const Navigation = () => {
                           <div className="text-sm font-medium text-gray-900">
                             {user.name}
                           </div>
-                          <div className="text-xs text-gray-500">
-                            {user.email}
-                          </div>
+                          <div className="text-xs text-gray-500">{user.email}</div>
                           <div className="mt-1">
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary text-white">
                               {user.role}
@@ -275,7 +279,6 @@ export const Navigation = () => {
                         </div>
                       </div>
 
-                      {/* Logout */}
                       <motion.button
                         onClick={handleLogout}
                         whileTap={{ scale: 0.98 }}
@@ -286,7 +289,6 @@ export const Navigation = () => {
                       </motion.button>
                     </>
                   ) : (
-                
                     <Link
                       href="/login"
                       className="flex items-center w-full px-4 py-3 mt-2 text-base font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors"

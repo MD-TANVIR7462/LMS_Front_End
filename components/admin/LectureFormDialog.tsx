@@ -67,7 +67,7 @@ export const LectureFormDialog = ({ open, onOpenChange, moduleId, lecture }: Lec
       return;
     }
     try {
-      const res = await updateData("lecture/update-lecture", lecture?._id as string, data, "");
+      const res = await updateData("lecture/update-lecture", lecture?._id as string, data, token as string);
       if (res?.success) {
         toast.success("lecture updated successfully.");
       } else {

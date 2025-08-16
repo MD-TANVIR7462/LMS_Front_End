@@ -4,23 +4,27 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Users, Monitor, Menu, X, LogOut, GraduationCap } from "lucide-react";
+import { Users, Monitor, Menu, X, LogOut, GraduationCap, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useDispatch } from "react-redux";
 import { logout } from "@/redux/features/auth/authSlice";
 import { toast } from "sonner";
 
+
 const adminNavigation = [
   { name: "Dashboard", href: "/admin", icon: Users },
   { name: "Courses", href: "/admin/courses", icon: Monitor },
+  // { href: "/", name: "Back Home", icon: Home },
 ];
 
 export function Sidebar() {
+
+
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
 
-  // ✅ Toast-based logout confirmation
+ 
   const handleLogout = () => {
     toast.custom((t) => (
       <div className="flex items-center justify-between gap-4 bg-white dark:bg-zinc-900 text-sm border border-zinc-300 dark:border-zinc-700 px-4 py-3 rounded-lg shadow-lg w-full max-w-lg">
@@ -42,7 +46,7 @@ export function Sidebar() {
               toast.dismiss(t);
               dispatch(logout());
               toast.success("Signed out successfully.");
-              router.push("/login");
+              router.push("/");
             }}
             className="px-2 py-1 rounded-md text-sm bg-red-600 text-white hover:bg-red-700"
           >

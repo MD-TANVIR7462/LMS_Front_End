@@ -1,7 +1,4 @@
 "use client";
-
-import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { Navigation } from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Users, PlayCircle, TrendingUp } from "lucide-react";
 import { Course } from "@/types";
@@ -43,7 +40,7 @@ export default function AdminDashboard({ courses, length }: { courses: any; leng
   ];
 
   return (
-    <ProtectedRoute requiredRole="admin">
+    <div>
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="mb-8">
@@ -107,6 +104,6 @@ export default function AdminDashboard({ courses, length }: { courses: any; leng
           </Card>
         </div>
       </div>
-    </ProtectedRoute>
+    </div>
   );
 }

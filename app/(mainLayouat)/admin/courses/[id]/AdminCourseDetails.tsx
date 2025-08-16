@@ -15,8 +15,10 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useAppSelector } from "@/redux/features/hooks";
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
 export default function AdminCourseDetails({ course }: { course: Course }) {
-  console.log(course);
+
   const params = useParams();
   const courseId = params.id as string;
   const router = useRouter();
@@ -26,7 +28,7 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
   const [editingLecture, setEditingLecture] = useState<{ lecture: Lecture; moduleId: string } | null>(null);
   const [selectedModuleId, setSelectedModuleId] = useState<string>("");
   const [playVideo, setPlayVideo] = useState<string>("");
-  console.log(editingLecture, "Edit", course);
+  const token = useAppSelector(useCurrentToken)
 
   if (!course) {
     return (
@@ -41,15 +43,16 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
     );
   }
   const handleDeleteModule = (id: string) => {
-    ConfirmAndDelete(id, "module/delete-module", router);
+    ConfirmAndDelete(id, "module/delete-module", router,token as string);
   };
   const handleDeleteLecture = (id: string) => {
-    ConfirmAndDelete(id, "lecture/delete-lecture", router);
+    ConfirmAndDelete(id, "lecture/delete-lecture", router ,token as string);
   };
 
   const handleAddLecture = (moduleId: string) => {
     setSelectedModuleId(moduleId);
     setIsLectureDialogOpen(true);
+  
   };
 
   return (
@@ -77,7 +80,7 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
           </div>
 
           {course.modules.length > 0 && (
-            <div className="flex flex-wrap gap-4 mb-8">
+            <div className="flex flex-wrap gap-4 mb-8 justify-end" >
               <Button onClick={() => setIsModuleDialogOpen(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 Add Module

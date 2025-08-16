@@ -70,7 +70,7 @@ export default function CourseIndex({ courses }: { courses: Course[] }) {
             "course/update-course",
             editingCourse._id as string,
             data,
-            ""
+            token as string
          );
          if (res?.success) {
             toast.success("Course updated successfully.");
@@ -87,7 +87,7 @@ export default function CourseIndex({ courses }: { courses: Course[] }) {
    };
 
    const handleDelete = (id: string) => {
-      ConfirmAndDelete(id, "course/delete-course", router)
+      ConfirmAndDelete(id, "course/delete-course", router, token as string)
    };
 
    return (

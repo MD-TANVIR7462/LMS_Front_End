@@ -6,6 +6,7 @@ export const ConfirmAndDelete = (
   id: string,
   route: string,
   router: any,
+  token: string | undefined = "",
   {
     successMessage = "Item deleted successfully.",
     errorMessage = "Failed to delete item.",
@@ -37,7 +38,7 @@ export const ConfirmAndDelete = (
           onClick={async () => {
             toast.dismiss(t);
             try {
-              const res = await deleteData(route, id);
+              const res = await deleteData(route, id,token as string);
               if (res.success) {
                 toast.success(successMessage);
               } else {

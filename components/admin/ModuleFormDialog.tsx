@@ -54,7 +54,7 @@ export const ModuleFormDialog = ({ open, onOpenChange, courseId, module }: Modul
       return;
     }
     try {
-      const res = await updateData("module/update-module", module?._id as string, data, "");
+      const res = await updateData("module/update-module", module?._id as string, data, token as string);
       if (res?.success) {
         toast.success("module updated successfully.");
       } else {

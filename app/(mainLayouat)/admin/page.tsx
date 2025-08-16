@@ -5,7 +5,6 @@ import AdminDashboard from "./dashboardIndex";
 const AdminDashboardPage = async () => {
   const courses = await getData("/course/get-courses");
 
-  console.log(courses);
   return courses && <AdminDashboard courses={courses?.data} length={courses.total} />;
 };
 
