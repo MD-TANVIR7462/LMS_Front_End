@@ -1,7 +1,6 @@
 "use client";
 
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { Navigation } from "@/components/Navigation";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus, Edit, Trash2, Play, FileText, ChevronDown, Eye } from "lucide-react";
@@ -56,7 +55,6 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
   return (
     <ProtectedRoute requiredRole="admin">
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
         <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Course Header */}
           <div className="bg-white rounded-lg shadow-sm mb-8 overflow-hidden max-h-[300px]">
