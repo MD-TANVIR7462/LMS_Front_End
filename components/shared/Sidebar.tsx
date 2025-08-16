@@ -14,7 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
+
 
 const adminNavigation = [
   { name: "Dashboard", href: "/admin", icon: Users },
@@ -29,7 +29,7 @@ const userNavigation = [
 ];
 
 export function Sidebar() {
-  const { user, logout } = useAuth();
+ ;
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();

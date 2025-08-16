@@ -22,7 +22,8 @@ const MainLayoutPage = () => {
           setIsChecking(false);
           disPatch(logout());
         } else {
-          router.replace("/dashboard");
+            console.log(user,token)
+        //   router.replace("/dashboard");
         }
       } else {
         setIsChecking(false);
@@ -40,7 +41,7 @@ const MainLayoutPage = () => {
   if (isChecking) return <Loader />;
     return (
         <div>
-            
+            hello
         </div>
     );
 };
