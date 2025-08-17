@@ -1,6 +1,7 @@
 import { getData } from '@/server/serverAction';
 import React from 'react';
-import UserCourses from './UerCourses';
+import UserCourses from './UserCourses';
+
 
 
 const userCoursespage = async() => {

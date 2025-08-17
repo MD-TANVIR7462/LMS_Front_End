@@ -21,8 +21,7 @@ export const useProgress = () => {
 };
 
 export const ProgressProvider = ({ children }: { children: ReactNode }) => {
-  const user = { name: "Tanvir"};
-  const [userProgress, setUserProgress] = useState<UserProgress[]>(user?.progress || []);
+  const [userProgress, setUserProgress] = useState<UserProgress[]>([]);
 
   const getUserProgress = (courseId: string) => {
     return userProgress.find((progress) => progress.courseId === courseId);

@@ -128,7 +128,7 @@ export default function CourseIndex({ courses }: { courses: Course[] }) {
                   <div className="space-y-4">
                      {/* Mobile Card View */}
                      <div className="lg:hidden space-y-4">
-                        {filteredCourses.map((course) => (
+                        {filteredCourses?.map((course) => (
                            <Card
                               key={course._id}
                               onClick={() => router.push(`/admin/courses/${course._id}`)}
@@ -198,7 +198,7 @@ export default function CourseIndex({ courses }: { courses: Course[] }) {
                               </TableRow>
                            </TableHeader>
                            <TableBody>
-                              {filteredCourses.map((course) => (
+                              {filteredCourses?.map((course) => (
                                  <TableRow
                                     key={course._id}
                                     onClick={() =>

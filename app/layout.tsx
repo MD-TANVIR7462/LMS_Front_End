@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google';
 
 import { Toaster } from 'sonner';
 import ReduxProvider from './ReduxProvider';
+import { ProgressProvider } from '@/contexts/ProgressContext';
 
 
 const inter = Inter({ subsets: ['latin'] });
@@ -23,12 +24,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Toaster position="top-right" expand={false} />
-      <ReduxProvider>
-
-
-         
-              {children}
-
+        <ReduxProvider>
+          <ProgressProvider>
+            {children}
+          </ProgressProvider>
         </ReduxProvider>
       </body>
     </html>

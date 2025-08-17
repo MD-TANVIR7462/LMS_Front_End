@@ -18,7 +18,7 @@ export default function UserCourses({ courses }: { courses: Course[] }) {
          
         
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {courses.map((course) => {
+            {courses?.map((course) => {
               const totalModules = course.modules.length;
               const totalLectures = course.modules.reduce((sum, mod) => sum + (mod.lectures?.length || 0), 0);
 
@@ -101,7 +101,7 @@ export default function UserCourses({ courses }: { courses: Course[] }) {
               );
             })}
           </div>
-          {courses.length === 0 && (
+          {courses?.length === 0 && (
             <div className="text-center py-12">
               <div className="text-gray-400 mb-4">
                 <BookOpen className="h-12 w-12 mx-auto" />

@@ -255,7 +255,7 @@ export default function CourseDetail({ course }: { course: Course }) {
                         {course.modules.length} modules • {totalLectures} lectures • {courseStats.duration} total length
                       </p>
                     </div>
-                    <Link href={`/courses/${courseId}/lecture/$${course.modules[0]?.lectures[0]?._id}`}>
+                    <Link href={`/courses/${courseId}/lecture/${course.modules[0]?.lectures[0]?._id}`}>
                       {" "}
                       <Button variant={"outline"}> Watch Lectures</Button>
                     </Link>

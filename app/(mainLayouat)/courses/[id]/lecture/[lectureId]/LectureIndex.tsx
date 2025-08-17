@@ -8,12 +8,12 @@ import {
   ChevronLeft,
   ChevronRight,
   Download,
-  Search,
+  // Search,
   CheckCircle,
   PlayCircle,
   FileText,
-  Loader2,
-  Video,
+
+
 } from "lucide-react";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
@@ -23,6 +23,7 @@ import { useCurrentToken, useCurrentUser } from "@/redux/features/auth/authSlice
 
 import { Course } from "@/types";
 import { createData, getData } from "@/server/serverAction";
+import Loader from "@/components/shared/Loader";
 
 export default function LectureIndex({ course }: { course: Course }) {
   const params = useParams();
@@ -191,10 +192,15 @@ export default function LectureIndex({ course }: { course: Course }) {
                 ← Back to Course
               </Link>
               <span className="text-sm text-gray-600">
-                {isLoading.progress ? <Loader2 className="h-4 w-4 animate-spin" /> : `${progressPercentage}% Complete`}
+                {isLoading.progress ? <Loader /> : `${progressPercentage}% Complete`}
               </span>
             </div>
-            <Progress value={progressPercentage} className="h-2" />
+            <div className="h-2 bg-gray-200 rounded-full">
+              <div
+                className="h-full bg-blue-500 rounded-full"
+                style={{ width: `${progressPercentage}%` }}
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-7 gap-4">
@@ -209,8 +215,7 @@ export default function LectureIndex({ course }: { course: Course }) {
                       className={`w-full h-full rounded-lg ${isVideoPlaying ? "ring-2 ring-blue-500" : ""}`}
                       allowFullScreen
                       title={currentLecture.title}
-                      onPlay={() => setIsVideoPlaying(true)}
-                      onPause={() => setIsVideoPlaying(false)}
+
                     />
                     {isVideoPlaying && (
                       <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
@@ -219,11 +224,11 @@ export default function LectureIndex({ course }: { course: Course }) {
                     )}
                   </div>
                 </CardContent>
-              </Card>{" "}
+              </Card>
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
-                    <Video className="h-5 w-5 mr-2" />
+                    <PlayCircle className="h-5 w-5 mr-2" />
                     {currentLecture.title}
                   </CardTitle>
                 </CardHeader>
@@ -263,7 +268,7 @@ export default function LectureIndex({ course }: { course: Course }) {
                   {previousLecture ? (
                     <Button variant="outline" onClick={handlePreviousLecture} disabled={isLoading.navigation}>
                       {isLoading.navigation ? (
-                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        <Loader />
                       ) : (
                         <ChevronLeft className="h-4 w-4 mr-2" />
                       )}
@@ -279,7 +284,7 @@ export default function LectureIndex({ course }: { course: Course }) {
                       variant="default"
                       disabled={!currentLecture.videoUrl || isLoading.navigation}
                     >
-                      {isLoading.navigation ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}
+                      {isLoading.navigation ? <Loader /> : null}
                       Next
                       {!isLoading.navigation && <ChevronRight className="h-4 w-4 ml-2" />}
                     </Button>
@@ -297,7 +302,7 @@ export default function LectureIndex({ course }: { course: Course }) {
                         }
                       }}
                     >
-                      {isLoading.completion ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}
+                      {isLoading.completion ? <Loader /> : null}
                       Complete Course
                     </Button>
                   )}
@@ -313,7 +318,7 @@ export default function LectureIndex({ course }: { course: Course }) {
                 </CardHeader>
                 <CardContent className="space-y-4 max-h-[100vh] overflow-y-auto">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
+                    {/* <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" /> */}
                     <Input
                       placeholder="Search lessons..."
                       value={searchTerm}
@@ -324,7 +329,7 @@ export default function LectureIndex({ course }: { course: Course }) {
 
                   {isLoading.user ? (
                     <div className="flex justify-center py-8">
-                      <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+                      <Loader />
                     </div>
                   ) : (
                     <div className="space-y-2">
@@ -339,9 +344,8 @@ export default function LectureIndex({ course }: { course: Course }) {
                                 Module {index + 1}: {module.title}
                               </span>
                               <ChevronRight
-                                className={`h-4 w-4 transition-transform ${
-                                  expandedModules.has(module._id) ? "rotate-90" : ""
-                                }`}
+                                className={`h-4 w-4 transition-transform ${expandedModules.has(module._id) ? "rotate-90" : ""
+                                  }`}
                               />
                             </div>
                           </button>
@@ -360,9 +364,8 @@ export default function LectureIndex({ course }: { course: Course }) {
                                   <Link
                                     key={lecture._id}
                                     href={`/courses/${courseId}/lecture/${lecture._id}`}
-                                    className={`block p-3 hover:bg-gray-50 transition-colors ${
-                                      isCurrent ? "bg-blue-50 border-r-2 border-blue-500" : ""
-                                    }`}
+                                    className={`block p-3 hover:bg-gray-50 transition-colors ${isCurrent ? "bg-blue-50 border-r-2 border-blue-500" : ""
+                                      }`}
                                   >
                                     <div className="flex items-center space-x-2">
                                       {lectureCompleted ? (
@@ -371,9 +374,8 @@ export default function LectureIndex({ course }: { course: Course }) {
                                         <PlayCircle className="h-4 w-4 text-gray-400" />
                                       )}
                                       <span
-                                        className={`text-sm ${
-                                          isCurrent ? "font-medium text-blue-700" : "text-gray-700"
-                                        }`}
+                                        className={`text-sm ${isCurrent ? "font-medium text-blue-700" : "text-gray-700"
+                                          }`}
                                       >
                                         {lecture.title}
                                       </span>

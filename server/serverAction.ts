@@ -4,8 +4,8 @@ import { envConfig } from "@/lib/envConfig";
 
 
 
-// const BASE_URL = envConfig.SERVER_BASE_URL; // Can be dynamic
-const BASE_URL = envConfig.LOCAL_BASE_URL; // Can be dynamic
+const BASE_URL = envConfig.SERVER_BASE_URL; // Can be dynamic
+// const BASE_URL = envConfig.LOCAL_BASE_URL; // Can be dynamic
 
 // GET ALL DATA
 export const getData = async (endpoint: string, token?: string) => {
