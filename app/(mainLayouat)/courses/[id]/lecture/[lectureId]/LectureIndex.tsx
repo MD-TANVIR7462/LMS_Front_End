@@ -186,22 +186,20 @@ export default function LectureIndex({ course }: { course: Course }) {
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Progress Bar */}
-          <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-            <div className="flex items-center justify-between mb-2">
-              <Link href={`/courses/${courseId}`} className="text-sm text-blue-600 hover:text-blue-800">
-                ← Back to Course
-              </Link>
-              <span className="text-sm text-gray-600">
-                {isLoading.progress ? <Loader /> : `${progressPercentage}% Complete`}
-              </span>
-            </div>
-            <div className="h-2 bg-gray-200 rounded-full">
-              <div
-                className="h-full bg-blue-500 rounded-full"
-                style={{ width: `${progressPercentage}%` }}
-              />
-            </div>
-          </div>
+            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+                  <div className="flex items-center justify-between mb-2">
+                     <Link
+                        href={`/courses/${courseId}`}
+                        className="text-sm text-blue-600 hover:text-blue-800"
+                     >
+                        ← Back to Course
+                     </Link>
+                     <span className="text-sm text-gray-600">
+                        {progressPercentage}% Complete
+                     </span>
+                  </div>
+                  <Progress value={progressPercentage} className="h-2" />
+               </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-7 gap-4">
             {/* Main Content */}

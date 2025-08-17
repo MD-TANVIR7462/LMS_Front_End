@@ -99,7 +99,7 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
                         }`}
                     >
                       <div>
-                        Module e.g {module.moduleNumber}: {module.title}
+                        Module {index+1}: {module.title}
                       </div>
 
                       <div className="flex space-x-2">
