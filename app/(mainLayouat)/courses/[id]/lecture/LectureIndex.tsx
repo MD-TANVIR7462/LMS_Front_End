@@ -36,17 +36,7 @@ export default function LectureIndex({ course }: { course: Course }) {
       setExpandedModules((prev) => new Set([...(prev as any), currentModule._id]));
     }
   }, [currentModule]);
-  useEffect(() => {
-    if (!course || !progress.length) return;
 
-    // Get last watched lecture
-    const lastWatchedLectureId = progress[progress.length - 1];
-
-    // If we are not already on last watched lecture, redirect
-    if (lastWatchedLectureId && lastWatchedLectureId !== lectureId) {
-      router.replace(`/courses/${courseId}/lecture/${lastWatchedLectureId}`);
-    }
-  }, [progress, courseId, lectureId, course, router]);
   useEffect(() => {
     const fetchUserAndProgress = async () => {
       if (!token || !user || !course) return;
