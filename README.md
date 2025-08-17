@@ -1,5 +1,3 @@
-# LMS_Front_End
-# LMS_Front_End
 # 📚 LMS - Learning Management System
 
 A modern and responsive **Learning Management System (LMS)** built with **Next.js 13**, **TypeScript**, **Redux Toolkit**, and **Tailwind CSS**.  
