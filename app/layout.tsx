@@ -1,8 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { CourseProvider } from '@/contexts/CourseContext';
-import { ProgressProvider } from '@/contexts/ProgressContext';
+
+
 import { Toaster } from 'sonner';
 import ReduxProvider from './ReduxProvider';
 
@@ -24,12 +24,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <Toaster position="top-right" expand={false} />
       <ReduxProvider>
-          <CourseProvider>
-            <ProgressProvider>
+
+
          
               {children}
-            </ProgressProvider>
-          </CourseProvider>
+
         </ReduxProvider>
       </body>
     </html>

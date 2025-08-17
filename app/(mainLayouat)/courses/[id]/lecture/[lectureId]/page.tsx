@@ -1,6 +1,6 @@
 import { getSingleData } from "@/server/serverAction";
 import React from "react";
-import LectureIndex from "../LectureIndex";
+import LectureIndex from "./LectureIndex";
 
 const LecturPage = async ({ params }: { params: any }) => {
   const courseId = params.id as string;
