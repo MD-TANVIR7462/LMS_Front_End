@@ -31,7 +31,9 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/features/hooks";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
-import { Loading } from "@/components/ui/loading";
+import Loader from "@/components/shared/Loader";
+
+
 
 type UserType = {
   name: string;
@@ -54,6 +56,6 @@ const HomePage = () => {
   }, [user, router]);
 
 
-  return <Loading />
+  return <div className="min-h-screen flex items-center justify-center"><Loader /></div>
 }
 export default HomePage;
