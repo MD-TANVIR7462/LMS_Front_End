@@ -62,7 +62,7 @@ export default function AdminCourseDetails({ course }: { course: Course }) {
           {/* Course Header */}
           <div className="bg-white rounded-lg shadow-sm mb-8 overflow-hidden max-h-[300px]">
             <div className="md:flex">
-              <div className="md:w-1/3">
+              <div className="md:w-1/3 hidden md:block">
                 <img src={course.thumbnail} alt={course.title} className="w-full h-64 md:h-full object-cover" />
               </div>
               <div className="md:w-2/3 p-8">
